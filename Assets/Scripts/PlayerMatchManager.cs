@@ -3,18 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerMatchManager : MonoBehaviour {
+public class PlayerMatchManager : MonoBehaviour
+{
 
 
     public static int matchID;
 
-    // Use this for initialization
-    void Start () {
-     
+
+    //TODO: DELETE, TEMPORARY:
+    public static void PrintCard(string cardName, Card.CardTypes cardType, int damage, string username)
+    {
+        Debug.Log("Card: '" + cardName + "' of type '" + cardType + "' with " + damage + " damage received to " + username);
+
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    // Use this for initialization
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 }

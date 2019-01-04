@@ -16,6 +16,7 @@ public class ClientHandleData
         packetListener = new Dictionary<int, Packet_>();
         packetListener.Add((int)ServerPackages.SLoadMenu, HandleLoadMenu);
         packetListener.Add((int)ServerPackages.SLoadMatch, HandleLoadMatch);
+        packetListener.Add((int)ServerPackages.SSendCards, HandleSendedCards);
     }
 
     public static void HandleData(byte[] data)
@@ -98,7 +99,7 @@ public class ClientHandleData
 
     private static void HandleLoadMenu(byte[] data)
     {
-        
+
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteBytes(data);
         int packageID = buffer.ReadInteger();
@@ -119,6 +120,23 @@ public class ClientHandleData
         ClientManager.enemyUsername = enemyUsername;
 
         ClientManager.LoadMatch(matchID);
+    }
+
+    private static void HandleSendedCards(byte[] data)
+    {
+        
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteBytes(data);
+        int packageID = buffer.ReadInteger();
+        for (int i = 0; i < 4; i++)
+        {
+            string cardName = buffer.ReadString();
+            Card.CardTypes cardType = (Card.CardTypes)buffer.ReadInteger();
+            int damage = buffer.ReadInteger();
+            PlayerMatchManager.PrintCard(cardName, cardType, damage, ClientManager.playerUsername);
+        }
+        
+        
     }
 
 }
