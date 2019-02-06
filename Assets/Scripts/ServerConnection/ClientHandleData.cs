@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 
+
 public class ClientHandleData
 {
     private static ByteBuffer playerBuffer;
@@ -17,6 +18,8 @@ public class ClientHandleData
         packetListener.Add((int)ServerPackages.SLoadMenu, HandleLoadMenu);
         packetListener.Add((int)ServerPackages.SLoadMatch, HandleLoadMatch);
         packetListener.Add((int)ServerPackages.SSendCards, HandleSendedCards);
+        packetListener.Add((int)ServerPackages.SStartRound, HandleStartRound);
+        packetListener.Add((int)ServerPackages.SSendAllCards, HandleAllCards);
     }
 
     public static void HandleData(byte[] data)
@@ -124,20 +127,39 @@ public class ClientHandleData
 
     private static void HandleSendedCards(byte[] data)
     {
-        
+
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteBytes(data);
         int packageID = buffer.ReadInteger();
-        for (int i = 0; i < 4; i++)
+        int numberOfCards = buffer.ReadInteger();
+        int[] sendedCards = new int[numberOfCards]; // TODO: CHECK What Perfomance better, list or Array
+
+        for (int i = 0; i < numberOfCards; i++)
         {
-            string cardName = buffer.ReadString();
-            Card.CardTypes cardType = (Card.CardTypes)buffer.ReadInteger();
-            int damage = buffer.ReadInteger();
-            PlayerMatchManager.PrintCard(cardName, cardType, damage, ClientManager.playerUsername);
+            sendedCards[i] = buffer.ReadInteger();
         }
-        
-        
+        PlayerMatchManager.PlaceCards(sendedCards);
+
     }
+
+    private static void HandleAllCards(byte[] data)
+    {
+
+
+        ClientManager.SaveCards(data);
+
+    }
+
+    private static void HandleStartRound(byte[] data)
+    {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteBytes(data);
+        int packageID = buffer.ReadInteger();
+
+        PlayerMatchManager.StartRound();
+
+    }
+
 
 }
 

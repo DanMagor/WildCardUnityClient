@@ -84,10 +84,18 @@ public class ClientTCP
         SendData(buffer.ToArray());
     }
 
-    public static void PACKAGE_SetReadyState(int matchID)
+    public static void PACKAGE_SetReadyForMatch(int matchID)
     {
         ByteBuffer buffer = new ByteBuffer();
-        buffer.WriteInteger((int)ClientPackages.CReadyForFight);
+        buffer.WriteInteger((int)ClientPackages.CReadyForMatch);
+        buffer.WriteInteger(PlayerMatchManager.matchID);
+        SendData(buffer.ToArray());
+    }
+
+    public static void PACKAGE_SetReadyForRound(int matchID)
+    {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteInteger((int)ClientPackages.CReadyForRound);
         buffer.WriteInteger(PlayerMatchManager.matchID);
         SendData(buffer.ToArray());
     }

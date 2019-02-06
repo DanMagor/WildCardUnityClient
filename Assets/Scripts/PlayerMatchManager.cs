@@ -8,24 +8,66 @@ public class PlayerMatchManager : MonoBehaviour
 
 
     public static int matchID;
+    public Text timer;
+
+
+    static int[] givenCards;
+
+    public static float timeRemains;
+    private static bool tickTimer = false;
+
 
 
     //TODO: DELETE, TEMPORARY:
-    public static void PrintCard(string cardName, Card.CardTypes cardType, int damage, string username)
+    private void Update()
     {
-        Debug.Log("Card: '" + cardName + "' of type '" + cardType + "' with " + damage + " damage received to " + username);
+
+        if (tickTimer)
+        {
+
+            timeRemains -= Time.deltaTime;
+            timer.text = Mathf.CeilToInt(timeRemains).ToString();
+            if (timeRemains <= 0)
+            {
+                tickTimer = false;  
+                ClientTCP.PACKAGE_SetReadyForRound(PlayerMatchManager.matchID);
+                
+            }
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            SetReadyForRound();
+        }
+    }
+
+    private static void SetReadyForRound()
+    {
+        ClientTCP.PACKAGE_SetReadyForRound(PlayerMatchManager.matchID);
+    }
+
+
+
+    public static void PlaceCards(int[] cards)
+    {
+        givenCards = new int[cards.Length]; //TODO CHECK PERFOMANCE; CHECK SIZE Requirements (const size?)
+        for (int i = 0; i < cards.Length; i++)
+        {
+            givenCards[i] = cards[i];
+        }
+
+           
+    } 
+
+    public static void StartRound()
+    {
+        tickTimer = true;
+        timeRemains = 3.0f;
+        
+        CardsUIManager.ShowCards(givenCards);
 
     }
 
-    // Use this for initialization
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    
 }
