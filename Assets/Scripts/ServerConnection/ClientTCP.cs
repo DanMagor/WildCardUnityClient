@@ -90,7 +90,7 @@ public class ClientTCP
     {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteInteger((int)ClientPackages.CReadyForMatch);
-        buffer.WriteInteger(playerMatchManager.matchID);
+        buffer.WriteInteger(matchID);
         SendData(buffer.ToArray());
     }
 
@@ -98,7 +98,16 @@ public class ClientTCP
     {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteInteger((int)ClientPackages.CReadyForRound);
-        buffer.WriteInteger(playerMatchManager.matchID);
+        buffer.WriteInteger(matchID);
+        SendData(buffer.ToArray());
+    }
+
+    public static void PACKAGE_SendSelectedCard(int matchID, int selectedCardID)
+    {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteInteger((int)ClientPackages.CSendSelectedCard);
+        buffer.WriteInteger(matchID);
+        buffer.WriteInteger(selectedCardID);
         SendData(buffer.ToArray());
     }
 }
