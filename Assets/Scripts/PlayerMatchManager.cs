@@ -10,7 +10,6 @@ public class PlayerMatchManager : MonoBehaviour
     public static int matchID;
     public Text timer;
 
-
     static int[] givenCards;
 
     public static float timeRemains;
@@ -30,7 +29,7 @@ public class PlayerMatchManager : MonoBehaviour
             if (timeRemains <= 0)
             {
                 tickTimer = false;  
-                ClientTCP.PACKAGE_SetReadyForRound(PlayerMatchManager.matchID);
+                //ClientTCP.PACKAGE_SetReadyForRound(PlayerMatchManager.matchID);
                 
             }
         }
@@ -68,6 +67,11 @@ public class PlayerMatchManager : MonoBehaviour
 
     }
 
-
+    public static void ShowResult()
+    {
+        Debug.Log("Animation");
+        SetReadyForRound();
+    }
+    
     
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using UnityEngine;
 
 
 public class ClientHandleData
@@ -12,6 +12,8 @@ public class ClientHandleData
     public static Dictionary<int, Packet_> packetListener;
     private static int pLength;
 
+    public static ClientManager clientManager = GameObject.Find("ClientManager").GetComponent<ClientManager>();
+
     public static void InitializePacketListener()
     {
         packetListener = new Dictionary<int, Packet_>();
@@ -20,6 +22,7 @@ public class ClientHandleData
         packetListener.Add((int)ServerPackages.SSendCards, HandleSendedCards);
         packetListener.Add((int)ServerPackages.SStartRound, HandleStartRound);
         packetListener.Add((int)ServerPackages.SSendAllCards, HandleAllCards);
+        packetListener.Add((int)ServerPackages.SShowResult, HandleShowResult);
     }
 
     public static void HandleData(byte[] data)
@@ -107,8 +110,10 @@ public class ClientHandleData
         buffer.WriteBytes(data);
         int packageID = buffer.ReadInteger();
         string playerUsername = buffer.ReadString();
+        Debug.Log(clientManager);
         ClientManager.playerUsername = playerUsername;
         ClientManager.LoadMenu();
+        clientManager.LoadMenu();
     }
 
     private static void HandleLoadMatch(byte[] data)
@@ -160,6 +165,10 @@ public class ClientHandleData
 
     }
 
+    private static void HandleShowResult(byte[] data)
+    {
+        PlayerMatchManager.ShowResult();
+    }
 
 }
 
