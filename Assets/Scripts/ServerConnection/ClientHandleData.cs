@@ -111,6 +111,8 @@ public class ClientHandleData
         buffer.WriteBytes(data);
         int packageID = buffer.ReadInteger();
         string playerUsername = buffer.ReadString();
+
+        //Need to save it in field of this class because we we can't pass it directly when scene is loading
         clientManager.playerUsername = playerUsername;
         clientManager.LoadMenu();
     }
@@ -122,13 +124,9 @@ public class ClientHandleData
         int packageID = buffer.ReadInteger();
         int matchID = buffer.ReadInteger();
 
-        //Change Architecture in future  CHANGE LAYBELS TO PLAYER MATCH <ANAGER
+        //Need to save it in field of this class because we we can't pass it directly when scene is loading
         string enemyUsername = buffer.ReadString();
         clientManager.enemyUsername = enemyUsername;
-
-        
-
-
         clientManager.LoadMatch(matchID);
     }
 

@@ -10,25 +10,28 @@ public class ClientManager : MonoBehaviour {
     [SerializeField] private string ipAddress;
     [SerializeField] private int port;
 
-
     
 
-    public  Text enemyUsernameLabel;
-    public  Text playerUsernameLabel;
+
+    private PlayerMatchManager currentMatchManager;
 
     public int currentMatchID;
-    public PlayerMatchManager currentMatchManager;
-
     public  string playerUsername;
     public  string enemyUsername;
+
+
+    public static Dictionary<int,CardSerializable> allCardsInfo = new Dictionary<int, CardSerializable>();
+    public static Dictionary<int, Sprite> allCardsSprites = new Dictionary<int, Sprite>();
 
 
 
     private void Awake()
     {
+        // This two methods for working with TCP in Unity Thread
         DontDestroyOnLoad(this);
         UnityThread.initUnityThread();
 
+        //Connection
         ClientHandleData.InitializePacketListener();
         ClientTCP.InitializeClientSocket(ipAddress, port);
     }
@@ -38,40 +41,18 @@ public class ClientManager : MonoBehaviour {
         SceneManager.LoadScene("Main Menu");
     }
 
-
-
-   
-
     public  void LoadMatch(int matchID)
     {
         SceneManager.sceneLoaded += InitializeLabels;
         SceneManager.sceneLoaded += SetReadyForMatch;
+        
+        //Have to save it here, because we need to download level first.-
         currentMatchID = matchID;
         SceneManager.LoadScene("Match");
         
     }
-    private  void InitializeLabels(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == "Match")
-        {
-            playerUsernameLabel = GameObject.Find("Canvas/PlayerUsernameLabel").GetComponent<Text>();
-            enemyUsernameLabel = GameObject.Find("Canvas/EnemyUsernameLabel").GetComponent<Text>();
-            playerUsernameLabel.text = playerUsername;
-            enemyUsernameLabel.text = enemyUsername;
-            //Find Player MatchManager on the scene for ClientHandleData
-            currentMatchManager = GameObject.Find("PlayerMatchManager").GetComponent<PlayerMatchManager>();
-            currentMatchManager.matchID = currentMatchID;
-            ClientHandleData.playerMatchManager = currentMatchManager;
-            ClientTCP.playerMatchManager = currentMatchManager;
-            
 
-
-        }
-
-    }
-
-
-    //TODO: Think about saving in JSON. Rewrite?
+    //TODO: Think about saving in JSON. Rewrite? DO we need to save them in files?
     public  void SaveCards(byte[] data)
     {
         ByteBuffer buffer = new ByteBuffer();
@@ -95,6 +76,16 @@ public class ClientManager : MonoBehaviour {
             card.bullet = bullet;
             card.image = image;
 
+
+            //Add to all cards dictionary
+            allCardsInfo.Add(cardID, card);
+
+            //Add all sprites according to ID
+            Sprite im = Resources.Load<Sprite>(@"Cards\" + image);
+            allCardsSprites.Add(cardID, im);
+
+
+            //Saving to JSON. DO we need it?
             string json = JsonUtility.ToJson(card);
 
             string path = Application.dataPath + @"\Resources\Cards";
@@ -104,18 +95,6 @@ public class ClientManager : MonoBehaviour {
                 System.IO.Directory.CreateDirectory(path);
             }
             System.IO.File.WriteAllText(path + @"\Card" + cardID, json);
-                
-
-            //Debug.Log("Creating Asset Card" + cardID);
-            //CardScriptableObject asset = ScriptableObject.CreateInstance<CardScriptableObject>(); //TODO MOVE LATER
-
-            //asset.ID = cardID;
-            //asset.damageLabel = damage.ToString();
-            //asset.bulletLabel = bullet.ToString();
-            //Debug.Log("Creating Asset2 Card" + cardID);
-            //AssetDatabase.CreateAsset(asset, "Assets/Resources/Cards/Card" + cardID + ".asset");
-            //Debug.Log("Saving Asset Card" + cardID);
-            //AssetDatabase.SaveAssets();
         }
     }
 
@@ -127,11 +106,34 @@ public class ClientManager : MonoBehaviour {
             ClientTCP.PACKAGE_SetReadyForMatch(currentMatchManager.matchID);
         }
     }
+    private void InitializeLabels(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Match")
+        {
+            
+
+            //Find Player MatchManager on the scene for ClientHandleData
+            //Have to search because we load new Scene
+            currentMatchManager = GameObject.Find("PlayerMatchManager").GetComponent<PlayerMatchManager>();
+            currentMatchManager.matchID = currentMatchID;
+
+            //Have to assign it here, cause we can find it only when level is alredy loaded
+            ClientHandleData.playerMatchManager = currentMatchManager;
+            ClientTCP.playerMatchManager = currentMatchManager;
+
+
+            //Initialize Labels:
+            currentMatchManager.InitializeLabels(playerUsername, enemyUsername);
+
+
+
+        }
+
+    }
 
 
 
 
-   
-    
+
 
 }
