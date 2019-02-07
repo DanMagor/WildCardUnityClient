@@ -7,13 +7,15 @@ public class PlayerMatchManager : MonoBehaviour
 {
 
 
-    public static int matchID;
+    public  int matchID;
     public Text timer;
 
-    static int[] givenCards;
+     int[] givenCards;
 
-    public static float timeRemains;
-    private static bool tickTimer = false;
+    public  float timeRemains;
+    private  bool tickTimer = false;
+
+    public Animator sampleAnimation;
 
 
 
@@ -40,14 +42,14 @@ public class PlayerMatchManager : MonoBehaviour
         }
     }
 
-    private static void SetReadyForRound()
+    public  void SetReadyForRound()
     {
-        ClientTCP.PACKAGE_SetReadyForRound(PlayerMatchManager.matchID);
+        ClientTCP.PACKAGE_SetReadyForRound(matchID);
     }
 
 
 
-    public static void PlaceCards(int[] cards)
+    public  void PlaceCards(int[] cards)
     {
         givenCards = new int[cards.Length]; //TODO CHECK PERFOMANCE; CHECK SIZE Requirements (const size?)
         for (int i = 0; i < cards.Length; i++)
@@ -58,7 +60,7 @@ public class PlayerMatchManager : MonoBehaviour
            
     } 
 
-    public static void StartRound()
+    public  void StartRound()
     {
         tickTimer = true;
         timeRemains = 3.0f;
@@ -67,11 +69,15 @@ public class PlayerMatchManager : MonoBehaviour
 
     }
 
-    public static void ShowResult()
+    public  void ShowResult()
     {
-        Debug.Log("Animation");
-        SetReadyForRound();
+        string animationName = "SampleAnimation";
+        sampleAnimation.Play(animationName);
+        //while (sampleAnimation.GetCurrentAnimatorStateInfo(0).IsName(animationName)) { }
+        //SetReadyForRound();
     }
+
+    
     
     
 }

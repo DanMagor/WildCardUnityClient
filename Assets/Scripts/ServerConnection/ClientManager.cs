@@ -13,11 +13,14 @@ public class ClientManager : MonoBehaviour {
 
     
 
-    public static Text enemyUsernameLabel;
-    public static Text playerUsernameLabel;
+    public  Text enemyUsernameLabel;
+    public  Text playerUsernameLabel;
 
-    public static string playerUsername;
-    public static string enemyUsername;
+    public int currentMatchID;
+    public PlayerMatchManager currentMatchManager;
+
+    public  string playerUsername;
+    public  string enemyUsername;
 
 
 
@@ -30,7 +33,7 @@ public class ClientManager : MonoBehaviour {
         ClientTCP.InitializeClientSocket(ipAddress, port);
     }
 
-    public static void LoadMenu()
+    public  void LoadMenu()
     {
         SceneManager.LoadScene("Main Menu");
     }
@@ -39,15 +42,15 @@ public class ClientManager : MonoBehaviour {
 
    
 
-    public static void LoadMatch(int matchID)
+    public  void LoadMatch(int matchID)
     {
         SceneManager.sceneLoaded += InitializeLabels;
         SceneManager.sceneLoaded += SetReadyForMatch;
-        PlayerMatchManager.matchID = matchID;
+        currentMatchID = matchID;
         SceneManager.LoadScene("Match");
         
     }
-    private static void InitializeLabels(Scene scene, LoadSceneMode mode)
+    private  void InitializeLabels(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "Match")
         {
@@ -55,8 +58,12 @@ public class ClientManager : MonoBehaviour {
             enemyUsernameLabel = GameObject.Find("Canvas/EnemyUsernameLabel").GetComponent<Text>();
             playerUsernameLabel.text = playerUsername;
             enemyUsernameLabel.text = enemyUsername;
-
-           
+            //Find Player MatchManager on the scene for ClientHandleData
+            currentMatchManager = GameObject.Find("PlayerMatchManager").GetComponent<PlayerMatchManager>();
+            currentMatchManager.matchID = currentMatchID;
+            ClientHandleData.playerMatchManager = currentMatchManager;
+            ClientTCP.playerMatchManager = currentMatchManager;
+            
 
 
         }
@@ -65,7 +72,7 @@ public class ClientManager : MonoBehaviour {
 
 
     //TODO: Think about saving in JSON. Rewrite?
-    public static void SaveCards(byte[] data)
+    public  void SaveCards(byte[] data)
     {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteBytes(data);
@@ -113,11 +120,11 @@ public class ClientManager : MonoBehaviour {
     }
 
     //TODO: Check Architecture Later
-    private static void SetReadyForMatch(Scene scene, LoadSceneMode mode)
+    private  void SetReadyForMatch(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "Match")
         {
-            ClientTCP.PACKAGE_SetReadyForMatch(PlayerMatchManager.matchID);
+            ClientTCP.PACKAGE_SetReadyForMatch(currentMatchManager.matchID);
         }
     }
 

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Net.Sockets;
-
+using UnityEngine;
 
 public class ClientTCP
 {
     private static TcpClient clientSocket;
     private static NetworkStream myStream;
     private static byte[] receiveBuffer;
+    public static ClientManager clientManager = GameObject.Find("ClientManager").GetComponent<ClientManager>();
+    public static PlayerMatchManager playerMatchManager;
 
     public static void InitializeClientSocket(string address, int port)
     {
@@ -79,7 +81,7 @@ public class ClientTCP
     {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteInteger((int)ClientPackages.CSearchOpponent);
-        buffer.WriteString(ClientManager.playerUsername);
+        buffer.WriteString(clientManager.playerUsername);
 
         SendData(buffer.ToArray());
     }
@@ -88,7 +90,7 @@ public class ClientTCP
     {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteInteger((int)ClientPackages.CReadyForMatch);
-        buffer.WriteInteger(PlayerMatchManager.matchID);
+        buffer.WriteInteger(playerMatchManager.matchID);
         SendData(buffer.ToArray());
     }
 
@@ -96,7 +98,7 @@ public class ClientTCP
     {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteInteger((int)ClientPackages.CReadyForRound);
-        buffer.WriteInteger(PlayerMatchManager.matchID);
+        buffer.WriteInteger(playerMatchManager.matchID);
         SendData(buffer.ToArray());
     }
 }

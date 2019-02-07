@@ -13,6 +13,7 @@ public class ClientHandleData
     private static int pLength;
 
     public static ClientManager clientManager = GameObject.Find("ClientManager").GetComponent<ClientManager>();
+    public static PlayerMatchManager playerMatchManager;
 
     public static void InitializePacketListener()
     {
@@ -110,9 +111,7 @@ public class ClientHandleData
         buffer.WriteBytes(data);
         int packageID = buffer.ReadInteger();
         string playerUsername = buffer.ReadString();
-        Debug.Log(clientManager);
-        ClientManager.playerUsername = playerUsername;
-        ClientManager.LoadMenu();
+        clientManager.playerUsername = playerUsername;
         clientManager.LoadMenu();
     }
 
@@ -123,11 +122,14 @@ public class ClientHandleData
         int packageID = buffer.ReadInteger();
         int matchID = buffer.ReadInteger();
 
-        //Change Architecture in future
+        //Change Architecture in future  CHANGE LAYBELS TO PLAYER MATCH <ANAGER
         string enemyUsername = buffer.ReadString();
-        ClientManager.enemyUsername = enemyUsername;
+        clientManager.enemyUsername = enemyUsername;
 
-        ClientManager.LoadMatch(matchID);
+        
+
+
+        clientManager.LoadMatch(matchID);
     }
 
     private static void HandleSendedCards(byte[] data)
@@ -143,7 +145,7 @@ public class ClientHandleData
         {
             sendedCards[i] = buffer.ReadInteger();
         }
-        PlayerMatchManager.PlaceCards(sendedCards);
+        playerMatchManager.PlaceCards(sendedCards);
 
     }
 
@@ -151,7 +153,7 @@ public class ClientHandleData
     {
 
 
-        ClientManager.SaveCards(data);
+        clientManager.SaveCards(data);
 
     }
 
@@ -161,13 +163,13 @@ public class ClientHandleData
         buffer.WriteBytes(data);
         int packageID = buffer.ReadInteger();
 
-        PlayerMatchManager.StartRound();
+        playerMatchManager.StartRound();
 
     }
 
     private static void HandleShowResult(byte[] data)
     {
-        PlayerMatchManager.ShowResult();
+        playerMatchManager.ShowResult();
     }
 
 }
