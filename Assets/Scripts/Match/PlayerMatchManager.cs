@@ -9,7 +9,13 @@ public class PlayerMatchManager : MonoBehaviour
     public string playerUsername;
     public string enemyUsername;
     public Text playerUsernameLabel;
+    public Text playerHPBar;
+    public Text playerBulletsCounter;
+
+
     public Text enemyUsernameLabel;
+    public Text enemyHPBar;
+    public Text enemyBulletsCounter;
 
     public CardsUIManager cardsUIManager;
     public AnimationManager animationManager;
@@ -101,8 +107,27 @@ public class PlayerMatchManager : MonoBehaviour
 
     }
 
-    public void ShowResult()
+    public void ShowResult(byte[] data)
     {
+        //read data for labels
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteBytes(data);
+        buffer.ReadInteger(); //read packet id, don't need it
+
+        //HP:
+        playerHPBar.text = buffer.ReadInteger().ToString();
+        enemyHPBar.text = buffer.ReadInteger().ToString();
+
+        //bullets:
+        playerBulletsCounter.text = buffer.ReadInteger().ToString();
+        enemyBulletsCounter.text = buffer.ReadInteger().ToString();
+
+        //Debug Purpose, sended card
+        Debug.Log("Player Card: " + buffer.ReadInteger().ToString());
+        Debug.Log("Enemy Card: " + buffer.ReadInteger().ToString());
+
+
+
         string animationName = "SampleAnimation";
         sampleAnimation.Play(animationName);
         
