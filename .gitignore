@@ -6,7 +6,7 @@
 
 Assets/AssetStoreTools*
 Assets/Z_StandartAssets/*
-Assets/Resources/*/*
+Assets/Resources/*
 # Visual Studio cache directory
 .vs/
 
