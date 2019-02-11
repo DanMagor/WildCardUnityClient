@@ -1,1 +1,1 @@
-{"id":29,"image":"Bag","damage":7,"bullet":5}
+{"id":29,"type":"Item","name":"Bag","image":"Bag","damage":0,"bullets":0,"accuracy":0,"heal":0,"initiativeName":"","initiativeEffect":"AddEvasion","initiativeValue":10,"initiativeDuration":1,"additionalEffectName":"AddAccuracy","additionalEffect":"AddAccuracy","additionalEffectValue":10,"additionalEffectDuration":1}

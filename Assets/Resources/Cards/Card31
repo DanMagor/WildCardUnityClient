@@ -1,1 +1,1 @@
-{"id":31,"image":"Neo","damage":15,"bullet":3}
+{"id":31,"type":"Item","name":"Neo","image":"Neo","damage":0,"bullets":0,"accuracy":0,"heal":0,"initiativeName":"","initiativeEffect":"","initiativeValue":0,"initiativeDuration":0,"additionalEffectName":"AddEvasion","additionalEffect":"AddEvasion","additionalEffectValue":100,"additionalEffectDuration":1}

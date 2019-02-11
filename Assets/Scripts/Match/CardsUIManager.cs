@@ -38,13 +38,13 @@ public class CardsUIManager : MonoBehaviour
             //Assign values to Player Cards
             cardUIManagers[i].cardID = card.id;
             cardUIManagers[i].cardImage.sprite = im;
-            cardUIManagers[i].bulletsLabel.text = card.bullet.ToString();
+            cardUIManagers[i].bulletsLabel.text = card.bullets.ToString();
             cardUIManagers[i].damageLabel.text = card.damage.ToString();
 
             //Assign values to Enemy Cards
             cardUIManagers[i+3].cardID = card.id;
             cardUIManagers[i+3].cardImage.sprite = im;
-            cardUIManagers[i+3].bulletsLabel.text = card.bullet.ToString();
+            cardUIManagers[i+3].bulletsLabel.text = card.bullets.ToString();
             cardUIManagers[i+3].damageLabel.text = card.damage.ToString();
 
         }
