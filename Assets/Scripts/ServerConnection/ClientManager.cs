@@ -5,96 +5,103 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 
-public class ClientManager : MonoBehaviour {
+public class ClientManager : MonoBehaviour
+{
 
     [SerializeField] private string ipAddress;
     [SerializeField] private int port;
 
 
-    
 
-    public  Text enemyUsernameLabel;
-    public  Text playerUsernameLabel;
+
+    private PlayerMatchManager currentMatchManager;
 
     public int currentMatchID;
-    public PlayerMatchManager currentMatchManager;
+    public string playerUsername;
+    public string enemyUsername;
 
-    public  string playerUsername;
-    public  string enemyUsername;
+
+    public static Dictionary<int, CardSerializable> allCardsInfo = new Dictionary<int, CardSerializable>();
+    public static Dictionary<int, Sprite> allCardsSprites = new Dictionary<int, Sprite>();
 
 
 
     private void Awake()
     {
+        // This two methods for working with TCP in Unity Thread
         DontDestroyOnLoad(this);
         UnityThread.initUnityThread();
 
+        //Connection
         ClientHandleData.InitializePacketListener();
         ClientTCP.InitializeClientSocket(ipAddress, port);
     }
 
-    public  void LoadMenu()
+    public void LoadMenu()
     {
         SceneManager.LoadScene("Main Menu");
     }
 
-
-
-   
-
-    public  void LoadMatch(int matchID)
+    public void LoadMatch(int matchID)
     {
         SceneManager.sceneLoaded += InitializeLabels;
         SceneManager.sceneLoaded += SetReadyForMatch;
+
+        //Have to save it here, because we need to download level first.-
         currentMatchID = matchID;
         SceneManager.LoadScene("Match");
-        
-    }
-    private  void InitializeLabels(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == "Match")
-        {
-            playerUsernameLabel = GameObject.Find("Canvas/PlayerUsernameLabel").GetComponent<Text>();
-            enemyUsernameLabel = GameObject.Find("Canvas/EnemyUsernameLabel").GetComponent<Text>();
-            playerUsernameLabel.text = playerUsername;
-            enemyUsernameLabel.text = enemyUsername;
-            //Find Player MatchManager on the scene for ClientHandleData
-            currentMatchManager = GameObject.Find("PlayerMatchManager").GetComponent<PlayerMatchManager>();
-            currentMatchManager.matchID = currentMatchID;
-            ClientHandleData.playerMatchManager = currentMatchManager;
-            ClientTCP.playerMatchManager = currentMatchManager;
-            
-
-
-        }
 
     }
 
-
-    //TODO: Think about saving in JSON. Rewrite?
-    public  void SaveCards(byte[] data)
+    //TODO: Think about saving in JSON. Rewrite? DO we need to save them in files?
+    public void SaveCards(byte[] data)
     {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteBytes(data);
         int packageID = buffer.ReadInteger();
-        int numberOfCards = buffer.ReadInteger();
 
-
-
+        //On First Iteration Read Attack Cards
+        int numberOfCards = buffer.ReadInteger(); //Read number of Attack Cards
         for (int i = 0; i < numberOfCards; i++)
         {
 
-            int cardID = buffer.ReadInteger();
-            int damage = buffer.ReadInteger();
-            int bullet = buffer.ReadInteger();
-            string image = buffer.ReadString();
-
             var card = new CardSerializable();
-            card.id = cardID;
-            card.damage = damage;
-            card.bullet = bullet;
-            card.image = image;
 
+            //Genereal Info
+            card.id = buffer.ReadInteger();
+            card.type = buffer.ReadString();
+            card.name = buffer.ReadString();
+            card.image = buffer.ReadString();
+
+            //Attack Card Info
+            card.damage = buffer.ReadInteger();
+            card.bullets = buffer.ReadInteger();
+            card.accuracy = buffer.ReadInteger();
+
+            //Initiative Effect
+            card.initiativeName = buffer.ReadString();
+            card.initiativeEffect = buffer.ReadString();
+            card.initiativeValue = buffer.ReadInteger();
+            card.initiativeDuration = buffer.ReadInteger();
+
+            //Additional Effect
+            card.additionalEffectName = buffer.ReadString();
+            card.additionalEffect = buffer.ReadString();
+            card.additionalEffectValue = buffer.ReadInteger();
+            card.additionalEffectDuration = buffer.ReadInteger();
+
+
+            //Add to all cards dictionary
+            allCardsInfo.Add(card.id, card);
+
+            //Add all sprites according to ID
+            Sprite im = Resources.Load<Sprite>(@"Cards\" + card.image);
+            allCardsSprites.Add(card.id, im);
+
+
+
+            /////////////////////////// TO DO : CHECK DO I NEED IT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+            //Saving to JSON. DO we need it?
             string json = JsonUtility.ToJson(card);
 
             string path = Application.dataPath + @"\Resources\Cards";
@@ -103,35 +110,151 @@ public class ClientManager : MonoBehaviour {
             {
                 System.IO.Directory.CreateDirectory(path);
             }
-            System.IO.File.WriteAllText(path + @"\Card" + cardID, json);
-                
+            System.IO.File.WriteAllText(path + @"\Card" + card.id, json);
+            /////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        }
 
-            //Debug.Log("Creating Asset Card" + cardID);
-            //CardScriptableObject asset = ScriptableObject.CreateInstance<CardScriptableObject>(); //TODO MOVE LATER
+        //Second Heal Cards
+        numberOfCards = buffer.ReadInteger(); //Read number of Heal Cards
+        for (int i = 0; i < numberOfCards; i++)
+        {
 
-            //asset.ID = cardID;
-            //asset.damageLabel = damage.ToString();
-            //asset.bulletLabel = bullet.ToString();
-            //Debug.Log("Creating Asset2 Card" + cardID);
-            //AssetDatabase.CreateAsset(asset, "Assets/Resources/Cards/Card" + cardID + ".asset");
-            //Debug.Log("Saving Asset Card" + cardID);
-            //AssetDatabase.SaveAssets();
+            var card = new CardSerializable();
+
+            //Genereal Info
+            card.id = buffer.ReadInteger();
+            card.type = buffer.ReadString();
+            card.name = buffer.ReadString();
+            card.image = buffer.ReadString();
+
+            //Heal Card Info
+            card.heal = buffer.ReadInteger();
+
+            //Initiative Effect
+            card.initiativeName = buffer.ReadString();
+            card.initiativeEffect = buffer.ReadString();
+            card.initiativeValue = buffer.ReadInteger();
+            card.initiativeDuration = buffer.ReadInteger();
+
+            //Additional Effect
+            card.additionalEffectName = buffer.ReadString();
+            card.additionalEffect = buffer.ReadString();
+            card.additionalEffectValue = buffer.ReadInteger();
+            card.additionalEffectDuration = buffer.ReadInteger();
+
+
+            //Add to all cards dictionary
+            allCardsInfo.Add(card.id, card);
+
+            //Add all sprites according to ID
+            Sprite im = Resources.Load<Sprite>(@"Cards\" + card.image);
+            allCardsSprites.Add(card.id, im);
+
+
+
+            /////////////////////////// TO DO : CHECK DO I NEED IT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+            //Saving to JSON. DO we need it?
+            string json = JsonUtility.ToJson(card);
+
+            string path = Application.dataPath + @"\Resources\Cards";
+
+            if (!System.IO.Directory.Exists(path))
+            {
+                System.IO.Directory.CreateDirectory(path);
+            }
+            System.IO.File.WriteAllText(path + @"\Card" + card.id, json);
+            /////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        }
+
+        //Item Cards
+        numberOfCards = buffer.ReadInteger(); //Read number of Item Cards
+        for (int i = 0; i < numberOfCards; i++)
+        {
+
+            var card = new CardSerializable();
+
+            //Genereal Info
+            card.id = buffer.ReadInteger();
+            card.type = buffer.ReadString();
+            card.name = buffer.ReadString();
+            card.image = buffer.ReadString();
+
+            //Item Card Info
+            //Nothing special here
+
+            //Initiative Effect
+            card.initiativeName = buffer.ReadString();
+            card.initiativeEffect = buffer.ReadString();
+            card.initiativeValue = buffer.ReadInteger();
+            card.initiativeDuration = buffer.ReadInteger();
+
+            //Additional Effect
+            card.additionalEffectName = buffer.ReadString();
+            card.additionalEffect = buffer.ReadString();
+            card.additionalEffectValue = buffer.ReadInteger();
+            card.additionalEffectDuration = buffer.ReadInteger();
+
+
+            //Add to all cards dictionary
+            allCardsInfo.Add(card.id, card);
+
+            //Add all sprites according to ID
+            Sprite im = Resources.Load<Sprite>(@"Cards\" + card.image);
+            allCardsSprites.Add(card.id, im);
+
+
+
+            /////////////////////////// TO DO : CHECK DO I NEED IT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+            //Saving to JSON. DO we need it?
+            string json = JsonUtility.ToJson(card);
+
+            string path = Application.dataPath + @"\Resources\Cards";
+
+            if (!System.IO.Directory.Exists(path))
+            {
+                System.IO.Directory.CreateDirectory(path);
+            }
+            System.IO.File.WriteAllText(path + @"\Card" + card.id, json);
+            /////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         }
     }
 
     //TODO: Check Architecture Later
-    private  void SetReadyForMatch(Scene scene, LoadSceneMode mode)
+    private void SetReadyForMatch(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "Match")
         {
             ClientTCP.PACKAGE_SetReadyForMatch(currentMatchManager.matchID);
         }
     }
+    private void InitializeLabels(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Match")
+        {
+
+
+            //Find Player MatchManager on the scene for ClientHandleData
+            //Have to search because we load new Scene
+            currentMatchManager = GameObject.Find("PlayerMatchManager").GetComponent<PlayerMatchManager>();
+            currentMatchManager.matchID = currentMatchID;
+
+            //Have to assign it here, cause we can find it only when level is alredy loaded
+            ClientHandleData.playerMatchManager = currentMatchManager;
+            ClientTCP.playerMatchManager = currentMatchManager;
+
+
+            //Initialize Labels:
+            currentMatchManager.InitializeLabels(playerUsername, enemyUsername);
+
+
+
+        }
+
+    }
 
 
 
 
-   
-    
+
 
 }
