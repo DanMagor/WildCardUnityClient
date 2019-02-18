@@ -102,12 +102,13 @@ public class ClientTCP
         SendData(buffer.ToArray());
     }
 
-    public static void PACKAGE_SendSelectedCard(int matchID, int selectedCardID)
+    public static void PACKAGE_SendSelectedCard(int matchID, int selectedCardID, string bodyPart)
     {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteInteger((int)ClientPackages.CSendSelectedCard);
         buffer.WriteInteger(matchID);
         buffer.WriteInteger(selectedCardID);
+        buffer.WriteString(bodyPart);
         SendData(buffer.ToArray());
     }
 }

@@ -50,4 +50,12 @@ public class CardsUIManager : MonoBehaviour
         }
 
     }
+
+    public void HideSelectorWheels()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            cardUIManagers[i].selectionWheel.SetActive(false);
+        }
+    }
 }

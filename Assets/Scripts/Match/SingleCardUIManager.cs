@@ -10,14 +10,25 @@ public class SingleCardUIManager : MonoBehaviour {
     public Text bulletsLabel;
     public Text damageLabel;
     public PlayerMatchManager pm;
+    public CardsUIManager cardManager;
 
-    public void SetSelected()
+    public GameObject selectionWheel;
+
+
+    public void ToggleSelection()
     {
-        pm.SetSelectedCardID(cardID);
+        cardManager.HideSelectorWheels();
+        selectionWheel.SetActive(!selectionWheel.activeSelf);
+    }
+
+    public void SetSelected(string bodyPart)
+    {
+       
+        pm.SetSelectedCardID(cardID, bodyPart);
     }
     private void Awake()
     {
-        pm = GetComponentInParent<PlayerMatchManager>();
+       // pm = GetComponentInParent<PlayerMatchManager>();
     }
 
     // Use this for initialization

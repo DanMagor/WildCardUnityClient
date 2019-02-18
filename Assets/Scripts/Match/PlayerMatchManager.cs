@@ -27,6 +27,7 @@ public class PlayerMatchManager : MonoBehaviour
     int[] givenCards;
 
     int selectedCardID;
+    string target;
 
     public float timeRemains;
     private bool tickTimer = false;
@@ -133,12 +134,15 @@ public class PlayerMatchManager : MonoBehaviour
         
     }
         
-    public void SetSelectedCardID(int cardID)
+    public void SetSelectedCardID(int cardID, string bodyPart)
     {
         selectedCardID = cardID;
-        ClientTCP.PACKAGE_SendSelectedCard(matchID, selectedCardID);
+        target = bodyPart;
+        
+        ClientTCP.PACKAGE_SendSelectedCard(matchID, selectedCardID, bodyPart);
     }
 
+    
 
 
 
