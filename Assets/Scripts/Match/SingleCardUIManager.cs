@@ -7,8 +7,27 @@ public class SingleCardUIManager : MonoBehaviour {
 
     public int cardID;
     public Image cardImage;
+
+    public Image initiativeImage;
+    public Text initiativeLabel;
+    
+    //For Attack Cards
     public Text bulletsLabel;
     public Text damageLabel;
+
+
+
+    //For Heal Cards
+    public Text healLabel;
+
+    //For Item Cards
+    public Text itemDurationLabel;
+    public Image itemEffectImage;
+    public Text itemEffectLabel;
+    
+
+
+
     public PlayerMatchManager pm;
     public CardsUIManager cardManager;
 
@@ -17,18 +36,27 @@ public class SingleCardUIManager : MonoBehaviour {
 
     public void ToggleSelection()
     {
-        cardManager.HideSelectorWheels();
-        selectionWheel.SetActive(!selectionWheel.activeSelf);
+        if (selectionWheel.activeSelf)
+        {
+            selectionWheel.SetActive(false);
+        }
+        else
+        {
+            cardManager.HideSelectorWheels();
+            selectionWheel.SetActive(!selectionWheel.activeSelf);
+        }
     }
 
     public void SetSelected(string bodyPart)
     {
-       
+
+        cardManager.HideSelectorWheels();
         pm.SetSelectedCardID(cardID, bodyPart);
     }
     private void Awake()
     {
-       // pm = GetComponentInParent<PlayerMatchManager>();
+      //  pm = GetComponentInParent<PlayerMatchManager>();
+        //cardManager = GetComponentInParent<CardsUIManager>();
     }
 
     // Use this for initialization

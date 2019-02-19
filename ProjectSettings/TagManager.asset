@@ -14,10 +14,10 @@ TagManager:
   - UI
   - 
   - 
+  - Panels
+  - 
   - CardImage
-  - 
-  - 
-  - 
+  - Selection Wheel
   - 
   - 
   - 
@@ -41,4 +41,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Selection Wheel
+    uniqueID: 1493275359
     locked: 0

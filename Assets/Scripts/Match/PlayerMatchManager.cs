@@ -123,9 +123,9 @@ public class PlayerMatchManager : MonoBehaviour
         playerBulletsCounter.text = buffer.ReadInteger().ToString();
         enemyBulletsCounter.text = buffer.ReadInteger().ToString();
 
-        //Debug Purpose, sended card
-        Debug.Log("Player Card: " + buffer.ReadInteger().ToString());
-        Debug.Log("Enemy Card: " + buffer.ReadInteger().ToString());
+        ////Debug Purpose, sended card
+        //Debug.Log("Player Card: " + buffer.ReadInteger().ToString());
+        //Debug.Log("Enemy Card: " + buffer.ReadInteger().ToString());
 
 
 

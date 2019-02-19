@@ -23,6 +23,8 @@ public class ClientManager : MonoBehaviour
 
     public static Dictionary<int, CardSerializable> allCardsInfo = new Dictionary<int, CardSerializable>();
     public static Dictionary<int, Sprite> allCardsSprites = new Dictionary<int, Sprite>();
+    public static Dictionary<string, Sprite> allEffectsSprites = new Dictionary<string, Sprite>();
+
 
 
 
@@ -217,6 +219,19 @@ public class ClientManager : MonoBehaviour
             System.IO.File.WriteAllText(path + @"\Card" + card.id, json);
             /////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         }
+
+        //TEMPORARY:
+        allEffectsSprites.Add("Reload", Resources.Load<Sprite>(@"Effects\Reload")); 
+        allEffectsSprites.Add("Boom", Resources.Load<Sprite>(@"Effects\Boom")); 
+        allEffectsSprites.Add("AddAccuracyInitiative", Resources.Load<Sprite>(@"Effects\AddAccuracyInitiative")); 
+        allEffectsSprites.Add("AddHealInitiative", Resources.Load<Sprite>(@"Effects\AddHealInitiative")); 
+        allEffectsSprites.Add("AddEvasion", Resources.Load<Sprite>(@"Effects\AddEvasion")); 
+        allEffectsSprites.Add("Neo", Resources.Load<Sprite>(@"Effects\Neo")); 
+    }
+
+    public void SaveEffects(byte[] data)
+    {
+
     }
 
     //TODO: Check Architecture Later
