@@ -111,5 +111,14 @@ public class ClientTCP
         buffer.WriteString(bodyPart);
         SendData(buffer.ToArray());
     }
+
+    public static void PACKAGE_SendRestartMatch(int matchID)
+    {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteInteger((int)ClientPackages.CRestartMatch);
+        buffer.WriteInteger(matchID);
+
+        SendData(buffer.ToArray());
+    }
 }
 

@@ -22,8 +22,9 @@ public class ClientHandleData
         packetListener.Add((int)ServerPackages.SLoadMatch, HandleLoadMatch);
         packetListener.Add((int)ServerPackages.SSendCards, HandleSendedCards);
         packetListener.Add((int)ServerPackages.SStartRound, HandleStartRound);
-        packetListener.Add((int)ServerPackages.SSendAllCards, HandleAllCards);
+        packetListener.Add((int)ServerPackages.SSendAllCardsAndEffects, HandleAllCardsAndEffects);
         packetListener.Add((int)ServerPackages.SShowResult, HandleShowResult);
+        packetListener.Add((int)ServerPackages.SFinishGame, HandleFinishGame);
     }
 
     public static void HandleData(byte[] data)
@@ -147,11 +148,11 @@ public class ClientHandleData
 
     }
 
-    private static void HandleAllCards(byte[] data)
+    private static void HandleAllCardsAndEffects(byte[] data)
     {
 
 
-        clientManager.SaveCards(data);
+        clientManager.SaveCardsAndEffects(data);
 
     }
 
@@ -170,6 +171,14 @@ public class ClientHandleData
     private static void HandleShowResult(byte[] data)
     {
         playerMatchManager.ShowResult(data);
+    }
+
+    private static void HandleFinishGame(byte[] data)
+    {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteBytes(data);
+        buffer.ReadInteger(); //Read Package ID
+        playerMatchManager.FinishGame(buffer.ReadString());
     }
 
 }

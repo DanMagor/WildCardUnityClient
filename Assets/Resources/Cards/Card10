@@ -1,1 +1,1 @@
-{"id":10,"type":"Attack","name":"Dynamite","image":"Dynamite","damage":0,"bullets":0,"accuracy":0,"heal":0,"initiativeName":"Boom!","initiativeEffect":"Boom","initiativeValue":10,"initiativeDuration":1,"additionalEffectName":"","additionalEffect":"","additionalEffectValue":0,"additionalEffectDuration":0}
+{"id":10,"type":"Attack","name":"Dynamite","image":"Dynamite","damage":0,"bullets":0,"accuracy":0,"heal":0,"itemDuration":0,"itemEffectLabel":"","itemEffectImage":"","initiativeEffect":13,"initiativeValue":20,"initiativeDuration":20}

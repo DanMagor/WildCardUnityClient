@@ -7,6 +7,8 @@ public class AnimationManager : MonoBehaviour
 
 
     public PlayerMatchManager playerMatchManager;
+
+    Animator animator;
  
 
     private void Awake()
@@ -14,6 +16,21 @@ public class AnimationManager : MonoBehaviour
         if (playerMatchManager == null)
         {
             playerMatchManager = GetComponent<PlayerMatchManager>();
+        }
+        animator = GetComponent<Animator>();
+    }
+
+
+    public void PlayAnimation()
+    {
+        if (playerMatchManager.matchBegins)
+        {
+            animator.Play("MatchBegins");
+            playerMatchManager.matchBegins = false;
+        }
+        else
+        {
+            animator.Play("SampleAnimation");
         }
     }
 

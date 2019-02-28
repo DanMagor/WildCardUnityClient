@@ -19,16 +19,11 @@ public class CardSerializable
     public int heal;
 
     //Item Card Info:
-    //Nothing Here
+    public int itemDuration;
+    public string itemEffectLabel;
+    public string itemEffectImage;
 
-
-    public string initiativeName;
-    public string initiativeEffect;
+    public int initiativeEffect;
     public int initiativeValue;
     public int initiativeDuration;
-
-    public string additionalEffectName;
-    public string additionalEffect;
-    public int additionalEffectValue;
-    public int additionalEffectDuration;
 }

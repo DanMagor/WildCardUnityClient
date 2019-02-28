@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,11 +12,20 @@ public class PlayerMatchManager : MonoBehaviour
     public Text playerUsernameLabel;
     public Text playerHPBar;
     public Text playerBulletsCounter;
+    public Text playerAccuracyLabel;
+
+    public Text winnerText;
+
+    public bool matchBegins = true;
+
+    //TODO ADD EFFECTS
 
 
     public Text enemyUsernameLabel;
     public Text enemyHPBar;
     public Text enemyBulletsCounter;
+    public Text enemyAccuracyLabel;
+    public Dictionary<int, Tuple<int, int>> effects;
 
     public CardsUIManager cardsUIManager;
     public AnimationManager animationManager;
@@ -57,6 +67,8 @@ public class PlayerMatchManager : MonoBehaviour
             animationManager = GetComponent<AnimationManager>();
         }
 
+        
+
     }
 
     //TODO: DELETE GET MOUSE TEMPORARY:
@@ -79,6 +91,8 @@ public class PlayerMatchManager : MonoBehaviour
         {
             SetReadyForRound();
         }
+
+
     }
 
     public void SetReadyForRound()
@@ -123,14 +137,20 @@ public class PlayerMatchManager : MonoBehaviour
         playerBulletsCounter.text = buffer.ReadInteger().ToString();
         enemyBulletsCounter.text = buffer.ReadInteger().ToString();
 
+        playerAccuracyLabel.text = buffer.ReadInteger().ToString() + "%";
+        enemyAccuracyLabel.text = buffer.ReadInteger().ToString() + "%";
+
+        //Effects:
+        cardsUIManager.ShowEffects(buffer);
+
+
+
+
         ////Debug Purpose, sended card
         //Debug.Log("Player Card: " + buffer.ReadInteger().ToString());
         //Debug.Log("Enemy Card: " + buffer.ReadInteger().ToString());
 
-
-
-        string animationName = "SampleAnimation";
-        sampleAnimation.Play(animationName);
+        animationManager.PlayAnimation();
         
     }
         
@@ -142,6 +162,18 @@ public class PlayerMatchManager : MonoBehaviour
         ClientTCP.PACKAGE_SendSelectedCard(matchID, selectedCardID, bodyPart);
     }
 
+    public void SetTimerText(string text)
+    {
+        timer.text = text;
+    }
+
+    public void FinishGame(string winnerUsername)
+    {
+        
+        timer.gameObject.SetActive(false);
+        winnerText.gameObject.SetActive(true);
+        winnerText.text = "The winner is: \n" + winnerUsername + "! \n Press R for Restart";
+    }
     
 
 

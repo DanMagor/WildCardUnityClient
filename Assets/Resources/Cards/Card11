@@ -1,1 +1,1 @@
-{"id":11,"type":"Attack","name":"Guard","image":"Guard","damage":5,"bullets":4,"accuracy":0,"heal":0,"initiativeName":"Sniper","initiativeEffect":"AddAccuracyInitiative","initiativeValue":100,"initiativeDuration":1,"additionalEffectName":"","additionalEffect":"","additionalEffectValue":0,"additionalEffectDuration":0}
+{"id":11,"type":"Attack","name":"Guard","image":"Guard","damage":5,"bullets":4,"accuracy":0,"heal":0,"itemDuration":0,"itemEffectLabel":"","itemEffectImage":"","initiativeEffect":14,"initiativeValue":30,"initiativeDuration":20}

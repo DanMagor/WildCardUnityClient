@@ -23,7 +23,8 @@ public class ClientManager : MonoBehaviour
 
     public static Dictionary<int, CardSerializable> allCardsInfo = new Dictionary<int, CardSerializable>();
     public static Dictionary<int, Sprite> allCardsSprites = new Dictionary<int, Sprite>();
-    public static Dictionary<string, Sprite> allEffectsSprites = new Dictionary<string, Sprite>();
+    public static Dictionary<int, EffectSerializable> allEffectsInfo = new Dictionary<int, EffectSerializable>();
+    public static Dictionary<int, Sprite> allEffectsSprites = new Dictionary<int, Sprite>();
 
 
 
@@ -39,6 +40,14 @@ public class ClientManager : MonoBehaviour
         ClientTCP.InitializeClientSocket(ipAddress, port);
     }
 
+
+    public void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            ClientTCP.PACKAGE_SendRestartMatch(currentMatchID);
+        }
+    }
     public void LoadMenu()
     {
         SceneManager.LoadScene("Main Menu");
@@ -56,7 +65,7 @@ public class ClientManager : MonoBehaviour
     }
 
     //TODO: Think about saving in JSON. Rewrite? DO we need to save them in files?
-    public void SaveCards(byte[] data)
+    public void SaveCardsAndEffects(byte[] data)
     {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteBytes(data);
@@ -81,16 +90,9 @@ public class ClientManager : MonoBehaviour
             card.accuracy = buffer.ReadInteger();
 
             //Initiative Effect
-            card.initiativeName = buffer.ReadString();
-            card.initiativeEffect = buffer.ReadString();
+            card.initiativeEffect = buffer.ReadInteger();
             card.initiativeValue = buffer.ReadInteger();
             card.initiativeDuration = buffer.ReadInteger();
-
-            //Additional Effect
-            card.additionalEffectName = buffer.ReadString();
-            card.additionalEffect = buffer.ReadString();
-            card.additionalEffectValue = buffer.ReadInteger();
-            card.additionalEffectDuration = buffer.ReadInteger();
 
 
             //Add to all cards dictionary
@@ -102,18 +104,18 @@ public class ClientManager : MonoBehaviour
 
 
 
-            /////////////////////////// TO DO : CHECK DO I NEED IT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-            //Saving to JSON. DO we need it?
-            string json = JsonUtility.ToJson(card);
+            ///////////////////////////// TO DO : CHECK DO I NEED IT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+            ////Saving to JSON. DO we need it?
+            //string json = JsonUtility.ToJson(card);
 
-            string path = Application.dataPath + @"\Resources\Cards";
+            //string path = Application.dataPath + @"\Resources\Cards";
 
-            if (!System.IO.Directory.Exists(path))
-            {
-                System.IO.Directory.CreateDirectory(path);
-            }
-            System.IO.File.WriteAllText(path + @"\Card" + card.id, json);
-            /////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+            //if (!System.IO.Directory.Exists(path))
+            //{
+            //    System.IO.Directory.CreateDirectory(path);
+            //}
+            //System.IO.File.WriteAllText(path + @"\Card" + card.id, json);
+            ///////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         }
 
         //Second Heal Cards
@@ -133,16 +135,10 @@ public class ClientManager : MonoBehaviour
             card.heal = buffer.ReadInteger();
 
             //Initiative Effect
-            card.initiativeName = buffer.ReadString();
-            card.initiativeEffect = buffer.ReadString();
+            card.initiativeEffect = buffer.ReadInteger();
             card.initiativeValue = buffer.ReadInteger();
             card.initiativeDuration = buffer.ReadInteger();
 
-            //Additional Effect
-            card.additionalEffectName = buffer.ReadString();
-            card.additionalEffect = buffer.ReadString();
-            card.additionalEffectValue = buffer.ReadInteger();
-            card.additionalEffectDuration = buffer.ReadInteger();
 
 
             //Add to all cards dictionary
@@ -154,18 +150,18 @@ public class ClientManager : MonoBehaviour
 
 
 
-            /////////////////////////// TO DO : CHECK DO I NEED IT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-            //Saving to JSON. DO we need it?
-            string json = JsonUtility.ToJson(card);
+            ///////////////////////////// TO DO : CHECK DO I NEED IT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+            ////Saving to JSON. DO we need it?
+            //string json = JsonUtility.ToJson(card);
 
-            string path = Application.dataPath + @"\Resources\Cards";
+            //string path = Application.dataPath + @"\Resources\Cards";
 
-            if (!System.IO.Directory.Exists(path))
-            {
-                System.IO.Directory.CreateDirectory(path);
-            }
-            System.IO.File.WriteAllText(path + @"\Card" + card.id, json);
-            /////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+            //if (!System.IO.Directory.Exists(path))
+            //{
+            //    System.IO.Directory.CreateDirectory(path);
+            //}
+            //System.IO.File.WriteAllText(path + @"\Card" + card.id, json);
+            ///////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         }
 
         //Item Cards
@@ -182,19 +178,15 @@ public class ClientManager : MonoBehaviour
             card.image = buffer.ReadString();
 
             //Item Card Info
-            //Nothing special here
+            card.itemDuration = buffer.ReadInteger();
+            card.itemEffectLabel = buffer.ReadString();
+            card.itemEffectImage = buffer.ReadString();
 
             //Initiative Effect
-            card.initiativeName = buffer.ReadString();
-            card.initiativeEffect = buffer.ReadString();
+            card.initiativeEffect = buffer.ReadInteger();
             card.initiativeValue = buffer.ReadInteger();
             card.initiativeDuration = buffer.ReadInteger();
 
-            //Additional Effect
-            card.additionalEffectName = buffer.ReadString();
-            card.additionalEffect = buffer.ReadString();
-            card.additionalEffectValue = buffer.ReadInteger();
-            card.additionalEffectDuration = buffer.ReadInteger();
 
 
             //Add to all cards dictionary
@@ -206,33 +198,37 @@ public class ClientManager : MonoBehaviour
 
 
 
-            /////////////////////////// TO DO : CHECK DO I NEED IT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-            //Saving to JSON. DO we need it?
-            string json = JsonUtility.ToJson(card);
+            ///////////////////////////// TO DO : CHECK DO I NEED IT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+            ////Saving to JSON. DO we need it?
+            //string json = JsonUtility.ToJson(card);
 
-            string path = Application.dataPath + @"\Resources\Cards";
+            //string path = Application.dataPath + @"\Resources\Cards";
 
-            if (!System.IO.Directory.Exists(path))
-            {
-                System.IO.Directory.CreateDirectory(path);
-            }
-            System.IO.File.WriteAllText(path + @"\Card" + card.id, json);
-            /////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+            //if (!System.IO.Directory.Exists(path))
+            //{
+            //    System.IO.Directory.CreateDirectory(path);
+            //}
+            //System.IO.File.WriteAllText(path + @"\Card" + card.id, json);
+            ///////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         }
 
-        //TEMPORARY:
-        allEffectsSprites.Add("Reload", Resources.Load<Sprite>(@"Effects\Reload")); 
-        allEffectsSprites.Add("Boom", Resources.Load<Sprite>(@"Effects\Boom")); 
-        allEffectsSprites.Add("AddAccuracyInitiative", Resources.Load<Sprite>(@"Effects\AddAccuracyInitiative")); 
-        allEffectsSprites.Add("AddHealInitiative", Resources.Load<Sprite>(@"Effects\AddHealInitiative")); 
-        allEffectsSprites.Add("AddEvasion", Resources.Load<Sprite>(@"Effects\AddEvasion")); 
-        allEffectsSprites.Add("Neo", Resources.Load<Sprite>(@"Effects\Neo")); 
+
+        //Now Save Effects
+        int numberOfEffects = buffer.ReadInteger();
+        for (int i = 0; i < numberOfEffects; i++)
+        {
+            var effect = new EffectSerializable();
+            effect.ID = buffer.ReadInteger();
+            effect.name = buffer.ReadString();
+            effect.image = buffer.ReadString();
+            allEffectsInfo[effect.ID] = effect;
+            allEffectsSprites.Add(effect.ID, Resources.Load<Sprite>(@"Effects\" + effect.image));
+        }
+
+        
     }
 
-    public void SaveEffects(byte[] data)
-    {
-
-    }
+   
 
     //TODO: Check Architecture Later
     private void SetReadyForMatch(Scene scene, LoadSceneMode mode)
