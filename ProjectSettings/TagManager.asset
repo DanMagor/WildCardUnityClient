@@ -45,3 +45,6 @@ TagManager:
   - name: Selection Wheel
     uniqueID: 1493275359
     locked: 0
+  - name: Animation
+    uniqueID: 4225491315
+    locked: 0

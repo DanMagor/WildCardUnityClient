@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class SingleCardUIManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class SingleCardUIManager : MonoBehaviour //, IPointerDownHandler, IPointerUpHandler
 {
 
     public int cardID;
@@ -75,26 +75,27 @@ public class SingleCardUIManager : MonoBehaviour, IPointerDownHandler, IPointerU
 
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        if (!isItem)
-        {
-            ToggleSelection();
-        }
-    }
+    //public void OnPointerDown(PointerEventData eventData)
+    //{
+    //    if (!isItem)
+    //    {
+    //        ToggleSelection();
+    //    }
+    //}
 
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        if (!isItem)
-        {
-            ToggleSelection();
-            SelectionUIManager selectorSector = eventData.pointerEnter.GetComponent<SelectionUIManager>();
-            if (selectorSector != null)
-            {
-                selectorSector.SetStandartSize();
-                SetSelected(selectorSector.bodyPart);
-            }
-        }
+    //public void OnPointerUp(PointerEventData eventData)
+    //{
+    //    if (!isItem)
+    //    {
 
-    }
+    //        SelectionUIManager selectorSector = eventData.pointerEnter.GetComponent<SelectionUIManager>();
+    //        if (selectorSector != null)
+    //        {
+    //            selectorSector.SetStandartSize();
+    //            SetSelected(selectorSector.bodyPart);
+    //        }
+    //        ToggleSelection();
+    //    }
+
+    //}
 }
