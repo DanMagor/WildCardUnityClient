@@ -31,7 +31,7 @@ public class SingleCardUIManager : MonoBehaviour //, IPointerDownHandler, IPoint
 
 
     public PlayerMatchManager pm;
-    public CardsUIManager cardManager;
+   // public CardsUIManager cardManager;
 
     public GameObject selectionWheel;
 
@@ -44,7 +44,7 @@ public class SingleCardUIManager : MonoBehaviour //, IPointerDownHandler, IPoint
         }
         else
         {
-            cardManager.HideSelectorWheels();
+            //cardManager.HideSelectorWheels();
             selectionWheel.SetActive(!selectionWheel.activeSelf);
         }
     }

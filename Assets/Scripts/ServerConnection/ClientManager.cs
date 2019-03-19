@@ -21,7 +21,7 @@ public class ClientManager : MonoBehaviour
     public string enemyUsername;
 
 
-    public static Dictionary<int, CardSerializable> allCardsInfo = new Dictionary<int, CardSerializable>();
+   // public static Dictionary<int, CardSerializable> allCardsInfo = new Dictionary<int, CardSerializable>();
     public static Dictionary<int, Sprite> allCardsSprites = new Dictionary<int, Sprite>();
     public static Dictionary<int, EffectSerializable> allEffectsInfo = new Dictionary<int, EffectSerializable>();
     public static Dictionary<int, Sprite> allEffectsSprites = new Dictionary<int, Sprite>();
@@ -76,31 +76,31 @@ public class ClientManager : MonoBehaviour
         for (int i = 0; i < numberOfCards; i++)
         {
 
-            var card = new CardSerializable();
+            //var card = new CardSerializable();
 
-            //Genereal Info
-            card.id = buffer.ReadInteger();
-            card.type = buffer.ReadString();
-            card.name = buffer.ReadString();
-            card.image = buffer.ReadString();
+            ////Genereal Info
+            //card.id = buffer.ReadInteger();
+            //card.type = buffer.ReadString();
+            //card.name = buffer.ReadString();
+            //card.image = buffer.ReadString();
 
-            //Attack Card Info
-            card.damage = buffer.ReadInteger();
-            card.bullets = buffer.ReadInteger();
-            card.accuracy = buffer.ReadInteger();
+            ////Attack Card Info
+            //card.damage = buffer.ReadInteger();
+            //card.bullets = buffer.ReadInteger();
+            //card.accuracy = buffer.ReadInteger();
 
-            //Initiative Effect
-            card.initiativeEffect = buffer.ReadInteger();
-            card.initiativeValue = buffer.ReadInteger();
-            card.initiativeDuration = buffer.ReadInteger();
+            ////Initiative Effect
+            //card.initiativeEffect = buffer.ReadInteger();
+            //card.initiativeValue = buffer.ReadInteger();
+            //card.initiativeDuration = buffer.ReadInteger();
 
 
-            //Add to all cards dictionary
-            allCardsInfo.Add(card.id, card);
+            ////Add to all cards dictionary
+            //allCardsInfo.Add(card.id, card);
 
-            //Add all sprites according to ID
-            Sprite im = Resources.Load<Sprite>(@"Cards\" + card.image);
-            allCardsSprites.Add(card.id, im);
+            ////Add all sprites according to ID
+            //Sprite im = Resources.Load<Sprite>(@"Cards\" + card.image);
+            //allCardsSprites.Add(card.id, im);
 
 
 
@@ -123,30 +123,30 @@ public class ClientManager : MonoBehaviour
         for (int i = 0; i < numberOfCards; i++)
         {
 
-            var card = new CardSerializable();
+            //var card = new CardSerializable();
 
-            //Genereal Info
-            card.id = buffer.ReadInteger();
-            card.type = buffer.ReadString();
-            card.name = buffer.ReadString();
-            card.image = buffer.ReadString();
+            ////Genereal Info
+            //card.id = buffer.ReadInteger();
+            //card.type = buffer.ReadString();
+            //card.name = buffer.ReadString();
+            //card.image = buffer.ReadString();
 
-            //Heal Card Info
-            card.heal = buffer.ReadInteger();
+            ////Heal Card Info
+            //card.heal = buffer.ReadInteger();
 
-            //Initiative Effect
-            card.initiativeEffect = buffer.ReadInteger();
-            card.initiativeValue = buffer.ReadInteger();
-            card.initiativeDuration = buffer.ReadInteger();
+            ////Initiative Effect
+            //card.initiativeEffect = buffer.ReadInteger();
+            //card.initiativeValue = buffer.ReadInteger();
+            //card.initiativeDuration = buffer.ReadInteger();
 
 
 
-            //Add to all cards dictionary
-            allCardsInfo.Add(card.id, card);
+            ////Add to all cards dictionary
+            //allCardsInfo.Add(card.id, card);
 
-            //Add all sprites according to ID
-            Sprite im = Resources.Load<Sprite>(@"Cards\" + card.image);
-            allCardsSprites.Add(card.id, im);
+            ////Add all sprites according to ID
+            //Sprite im = Resources.Load<Sprite>(@"Cards\" + card.image);
+            //allCardsSprites.Add(card.id, im);
 
 
 
@@ -169,32 +169,32 @@ public class ClientManager : MonoBehaviour
         for (int i = 0; i < numberOfCards; i++)
         {
 
-            var card = new CardSerializable();
+            //var card = new CardSerializable();
 
-            //Genereal Info
-            card.id = buffer.ReadInteger();
-            card.type = buffer.ReadString();
-            card.name = buffer.ReadString();
-            card.image = buffer.ReadString();
+            ////Genereal Info
+            //card.id = buffer.ReadInteger();
+            //card.type = buffer.ReadString();
+            //card.name = buffer.ReadString();
+            //card.image = buffer.ReadString();
 
-            //Item Card Info
-            card.itemDuration = buffer.ReadInteger();
-            card.itemEffectLabel = buffer.ReadString();
-            card.itemEffectImage = buffer.ReadString();
+            ////Item Card Info
+            //card.itemDuration = buffer.ReadInteger();
+            //card.itemEffectLabel = buffer.ReadString();
+            //card.itemEffectImage = buffer.ReadString();
 
-            //Initiative Effect
-            card.initiativeEffect = buffer.ReadInteger();
-            card.initiativeValue = buffer.ReadInteger();
-            card.initiativeDuration = buffer.ReadInteger();
+            ////Initiative Effect
+            //card.initiativeEffect = buffer.ReadInteger();
+            //card.initiativeValue = buffer.ReadInteger();
+            //card.initiativeDuration = buffer.ReadInteger();
 
 
 
-            //Add to all cards dictionary
-            allCardsInfo.Add(card.id, card);
+            ////Add to all cards dictionary
+            //allCardsInfo.Add(card.id, card);
 
-            //Add all sprites according to ID
-            Sprite im = Resources.Load<Sprite>(@"Cards\" + card.image);
-            allCardsSprites.Add(card.id, im);
+            ////Add all sprites according to ID
+            //Sprite im = Resources.Load<Sprite>(@"Cards\" + card.image);
+            //allCardsSprites.Add(card.id, im);
 
 
 

@@ -1,48 +1,78 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
+
 
 public class AnimationManager : MonoBehaviour
 {
+    public ClientMatchManager MatchManager;
+    public Text PlayerHPLabel;
+    public Text PlayerArmorLabel;
+    public Text EnemyHPLabel;
+    public Text EnemyArmorLabel;
+    public bool PlayTimerState;
+    public float TimerTime;
+    public float TimeRemains;
+    public UICard[] UICards;
+    public bool inAnimation;
+    public Queue<UICard> animationQueue;
 
+    public Sequence animationSequence;
 
-    public PlayerMatchManager playerMatchManager;
+    public static class CardAnimationsStates
+    {
+        public const string Combo = "Combo";
+        public const string NoCombo = "NoCombo";
 
-    Animator animator;
- 
+    }
+
+   
+    
+
 
     private void Awake()
     {
-        if (playerMatchManager == null)
-        {
-            playerMatchManager = GetComponent<PlayerMatchManager>();
-        }
-        animator = GetComponent<Animator>();
+      UICards = GetComponentsInChildren<UICard>();
+      animationSequence = DOTween.Sequence();
     }
 
-
-    public void PlayAnimation()
+    public void StartTimer(float time)
     {
-        if (playerMatchManager.matchBegins)
-        {
-            animator.Play("MatchBegins");
-            playerMatchManager.matchBegins = false;
-        }
-        else
-        {
-            animator.Play("SampleAnimation");
-        }
+        throw new NotImplementedException();
     }
 
-    // Use this for initialization
-    void Start()
+    public void ShowCards()
     {
-
+        throw new NotImplementedException();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ToggleCard(int position)
     {
+        throw new NotImplementedException();
+    }
+
+    public void MakeShoot()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ShowResult()
+    {
+        //temp:
+        int cardPosition = 1;
+        animationSequence = DOTween.Sequence();
+       
+        UICards[0].PlayAnimation(CardAnimationsStates.Combo);
+        UICards[1].PlayAnimation(CardAnimationsStates.Combo);
+        UICards[2].PlayAnimation(CardAnimationsStates.NoCombo);
+        UICards[3].PlayAnimation(CardAnimationsStates.NoCombo);
+
         
     }
+
+
 }
+    

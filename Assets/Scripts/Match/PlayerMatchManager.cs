@@ -27,7 +27,7 @@ public class PlayerMatchManager : MonoBehaviour
     public Text enemyAccuracyLabel;
     public Dictionary<int, Tuple<int, int>> effects;
 
-    public CardsUIManager cardsUIManager;
+  //  public CardsUIManager cardsUIManager;
     public AnimationManager animationManager;
 
 
@@ -58,14 +58,14 @@ public class PlayerMatchManager : MonoBehaviour
     }
     public void Awake()
     {
-        if (cardsUIManager == null)
-        {
-            cardsUIManager = GetComponent<CardsUIManager>();
-        }
-        if (animationManager == null)
-        {
-            animationManager = GetComponent<AnimationManager>();
-        }
+        //if (cardsUIManager == null)
+        //{
+        //    cardsUIManager = GetComponent<CardsUIManager>();
+        //}
+        //if (animationManager == null)
+        //{
+        //    animationManager = GetComponent<AnimationManager>();
+        //}
 
         
 
@@ -118,7 +118,7 @@ public class PlayerMatchManager : MonoBehaviour
         tickTimer = true;
         timeRemains = 3.0f;
 
-        cardsUIManager.ShowCards(givenCards);
+        //cardsUIManager.ShowCards(givenCards);
 
     }
 
@@ -141,7 +141,7 @@ public class PlayerMatchManager : MonoBehaviour
         enemyAccuracyLabel.text = buffer.ReadInteger().ToString() + "%";
 
         //Effects:
-        cardsUIManager.ShowEffects(buffer);
+        //cardsUIManager.ShowEffects(buffer);
 
 
 
@@ -150,7 +150,7 @@ public class PlayerMatchManager : MonoBehaviour
         //Debug.Log("Player Card: " + buffer.ReadInteger().ToString());
         //Debug.Log("Enemy Card: " + buffer.ReadInteger().ToString());
 
-        animationManager.PlayAnimation();
+     //   animationManager.PlayAnimation();
         
     }
         
