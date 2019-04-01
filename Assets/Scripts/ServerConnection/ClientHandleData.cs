@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,18 +14,21 @@ public class ClientHandleData
     private static int pLength;
 
     public static ClientManager clientManager = GameObject.Find("ClientManager").GetComponent<ClientManager>();
-    public static PlayerMatchManager playerMatchManager;
+    public static ClientMatchManager clientMatchManager;
 
     public static void InitializePacketListener()
     {
-        packetListener = new Dictionary<int, Packet_>();
-        packetListener.Add((int)ServerPackages.SLoadMenu, HandleLoadMenu);
-        packetListener.Add((int)ServerPackages.SLoadMatch, HandleLoadMatch);
-        packetListener.Add((int)ServerPackages.SSendCards, HandleSendedCards);
-        packetListener.Add((int)ServerPackages.SStartRound, HandleStartRound);
-        packetListener.Add((int)ServerPackages.SSendAllCardsAndEffects, HandleAllCardsAndEffects);
-        packetListener.Add((int)ServerPackages.SShowResult, HandleShowResult);
-        packetListener.Add((int)ServerPackages.SFinishGame, HandleFinishGame);
+        packetListener = new Dictionary<int, Packet_>
+        {
+            {(int) ServerPackages.SLoadMenu, HandleLoadMenu},
+            {(int) ServerPackages.SLoadMatch, HandleLoadMatch},
+            {(int) ServerPackages.SSendMatchCards, Handle_Match_SendedCards},
+            {(int) ServerPackages.SStartRound, Handle_Match_StartRound},
+            {(int) ServerPackages.SShowCards, Handle_Match_ShowCards},
+            {(int) ServerPackages.SSendAllCards, Handle_Client_AllCardsData},
+            {(int) ServerPackages.SShowResult, HandleShowResult},
+            {(int) ServerPackages.SFinishGame, HandleFinishGame}
+        };
     }
 
     public static void HandleData(byte[] data)
@@ -120,57 +124,59 @@ public class ClientHandleData
 
     private static void HandleLoadMatch(byte[] data)
     {
-        ByteBuffer buffer = new ByteBuffer();
-        buffer.WriteBytes(data);
-        int packageID = buffer.ReadInteger();
-        int matchID = buffer.ReadInteger();
 
-        //Need to save it in field of this class because we we can't pass it directly when scene is loading
-        string enemyUsername = buffer.ReadString();
-        clientManager.enemyUsername = enemyUsername;
-        clientManager.LoadMatch(matchID);
+        clientManager.LoadMatch(data);
+
+        //ByteBuffer buffer = new ByteBuffer();
+
+        //buffer.WriteBytes(data);
+        //int packageID = buffer.ReadInteger();
+        //int matchID = buffer.ReadInteger();
+
+        ////Need to save it in field of this class because we we can't pass it directly when scene is loading
+        //string enemyUsername = buffer.ReadString();
+        //clientManager.enemyUsername = enemyUsername;
+        //clientManager.LoadMatch(matchID);
     }
 
-    private static void HandleSendedCards(byte[] data)
+    private static void Handle_Match_SendedCards(byte[] data)
     {
 
-        ByteBuffer buffer = new ByteBuffer();
+        var buffer = new ByteBuffer();
         buffer.WriteBytes(data);
-        int packageID = buffer.ReadInteger();
-        int numberOfCards = buffer.ReadInteger();
-        int[] sendedCards = new int[numberOfCards]; // TODO: CHECK What Perfomance better, list or Array
-
-        for (int i = 0; i < numberOfCards; i++)
-        {
-            sendedCards[i] = buffer.ReadInteger();
-        }
-        playerMatchManager.PlaceCards(sendedCards);
+        clientMatchManager.HandleSendedCards(buffer);
 
     }
 
-    private static void HandleAllCardsAndEffects(byte[] data)
+    private static void Handle_Client_AllCardsData(byte[] data)
     {
 
 
-        clientManager.SaveCardsAndEffects(data);
+        clientManager.SaveAllCardsData(data);
 
     }
 
-    private static void HandleStartRound(byte[] data)
+    private static void Handle_Match_StartRound(byte[] data)
     {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteBytes(data);
-        int packageID = buffer.ReadInteger();
 
-        playerMatchManager.StartRound();
+        clientMatchManager.StartRound(buffer);
 
     }
 
-    
+    private static void Handle_Match_ShowCards(byte[] data)
+    {
+        var buffer = new ByteBuffer();
+        buffer.WriteBytes(data);
+        clientMatchManager.ShowCards(buffer);
+    }
 
     private static void HandleShowResult(byte[] data)
     {
-        playerMatchManager.ShowResult(data);
+       var buffer = new ByteBuffer();
+       buffer.WriteBytes(data);
+       clientMatchManager.ShowResult(buffer);
     }
 
     private static void HandleFinishGame(byte[] data)
@@ -178,7 +184,7 @@ public class ClientHandleData
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteBytes(data);
         buffer.ReadInteger(); //Read Package ID
-        playerMatchManager.FinishGame(buffer.ReadString());
+           // clientMatchManager.FinishGame(buffer.ReadString());
     }
 
 }

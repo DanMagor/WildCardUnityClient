@@ -8,7 +8,7 @@ public class ClientTCP
     private static NetworkStream myStream;
     private static byte[] receiveBuffer;
     public static ClientManager clientManager = GameObject.Find("ClientManager").GetComponent<ClientManager>();
-    public static PlayerMatchManager playerMatchManager;
+    public static ClientMatchManager clientMatchManager;
 
     public static void InitializeClientSocket(string address, int port)
     {
@@ -86,7 +86,7 @@ public class ClientTCP
         SendData(buffer.ToArray());
     }
 
-    public static void PACKAGE_SetReadyForMatch(int matchID)
+    public static void PACKAGE_SetReady(int matchID)
     {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteInteger((int)ClientPackages.CReadyForMatch);
@@ -102,13 +102,12 @@ public class ClientTCP
         SendData(buffer.ToArray());
     }
 
-    public static void PACKAGE_SendSelectedCard(int matchID, int selectedCardID, string bodyPart)
+    public static void PACKAGE_Match_ToggleCard(int matchID, int selectedCardPosition)
     {
         ByteBuffer buffer = new ByteBuffer();
-        buffer.WriteInteger((int)ClientPackages.CSendSelectedCard);
+        buffer.WriteInteger((int)ClientPackages.CSendToggleCard);
         buffer.WriteInteger(matchID);
-        buffer.WriteInteger(selectedCardID);
-        buffer.WriteString(bodyPart);
+        buffer.WriteInteger(selectedCardPosition);
         SendData(buffer.ToArray());
     }
 
@@ -118,6 +117,15 @@ public class ClientTCP
         buffer.WriteInteger((int)ClientPackages.CRestartMatch);
         buffer.WriteInteger(matchID);
 
+        SendData(buffer.ToArray());
+    }
+
+    public static void PACKAGE_Match_Shot(int matchID)
+    {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteInteger((int)ClientPackages.CShot);
+        buffer.WriteInteger(matchID);
+        
         SendData(buffer.ToArray());
     }
 }

@@ -11,8 +11,8 @@ public class Login : MonoBehaviour
 
     public void LoginAccount()
     {
-        if (username.text == string.Empty) { Debug.Log("Please enter a username"); return; }
-        if (password.text == string.Empty) { Debug.Log("Please enter a password"); return; }
+        //if (username.text == string.Empty) { Debug.Log("Please enter a username"); return; }
+        //if (password.text == string.Empty) { Debug.Log("Please enter a password"); return; }
 
         ClientTCP.PACKAGE_Login(username.text, password.text);
     }

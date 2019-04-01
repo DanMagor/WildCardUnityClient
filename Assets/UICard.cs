@@ -104,9 +104,15 @@ public class UICard : MonoBehaviour, IPointerClickHandler
         }
 
         animationSequence.Append(
-            rTransform.DOAnchorPos(firstPoint.anchoredPosition, movingTime).OnComplete(() => noComboParticleSystem.Play()));
+            rTransform.DOAnchorPos(firstPoint.anchoredPosition, movingTime));
         animationSequence.Join(
             rTransform.DOScale(scaleRate, movingTime));
+        animationSequence.AppendCallback((() =>
+        {
+            noComboParticleSystem.Play();
+            
+        }));
+       
 
         var newColor = cardImage.color;
         newColor.a = 0f;
@@ -115,22 +121,25 @@ public class UICard : MonoBehaviour, IPointerClickHandler
 
         newColor = cardImage.color;
         newColor.a = 1f;
-        animationSequence.Append(cardImage.DOColor(newColor, transformationTime / 2)
-            .OnStart(() =>
-            {
-                cardImage.sprite = comboCardSprite;
-            }))
-            .OnComplete(() =>
-            {
-                noComboParticleSystem.Stop();
-                noComboParticleSystem.Clear();
-            });
+        animationSequence.AppendCallback((() =>
+        {
+            cardImage.sprite = comboCardSprite;
+        }));
+        animationSequence.Append(cardImage.DOColor(newColor, transformationTime / 2));
+
+        animationSequence.AppendCallback((() =>
+        {
+            noComboParticleSystem.Stop();
+            noComboParticleSystem.Clear();
+        }));
 
         animationSequence.Join(rTransform.DOScale(new Vector3(1f, 1f), transformationTime / 2));
-        animationSequence.AppendInterval(transformationTime/3).AppendCallback(() =>
+        animationSequence.AppendInterval(transformationTime / 3);
+        animationSequence.AppendCallback((() =>
         {
             noComboParticleSystem.Play();
-        });
+        }));
+
         rTransform.localScale = scaleRate;
         newColor.a = 0f;
         animationSequence.Append(cardImage.DOColor(newColor, transformationTime / 2));
@@ -138,16 +147,16 @@ public class UICard : MonoBehaviour, IPointerClickHandler
 
         newColor = cardImage.color;
         newColor.a = 1f;
-        animationSequence.Append(cardImage.DOColor(newColor, transformationTime / 2)
-            .OnStart(() =>
-            {
-                cardImage.sprite = effectSprite;
-            }))
-            .OnComplete(() =>
-            {
-                noComboParticleSystem.Stop();
-            });
-
+        animationSequence.AppendCallback((() =>
+        {
+            cardImage.sprite = effectSprite;
+        }));
+        animationSequence.Append(cardImage.DOColor(newColor, transformationTime / 2));
+        animationSequence.AppendCallback((() =>
+        {
+            noComboParticleSystem.Stop();
+        }));
+            
 
 
         var position = Camera.main.WorldToScreenPoint(player.transform.position);
@@ -165,7 +174,7 @@ public class UICard : MonoBehaviour, IPointerClickHandler
 
     private void PlayNoCombo()
     {
-        Sequence animationSequence = DOTween.Sequence();
+        var animationSequence = DOTween.Sequence();
         CardUIAnimator.enabled = false;
         firstPoint.gameObject.SetActive(false);
 
@@ -176,9 +185,11 @@ public class UICard : MonoBehaviour, IPointerClickHandler
         }
 
         animationSequence.Append(
-            rTransform.DOAnchorPos(firstPoint.anchoredPosition, movingTime).OnComplete(() => noComboParticleSystem.Play()));
+            rTransform.DOAnchorPos(firstPoint.anchoredPosition, movingTime));
         animationSequence.Join(
             rTransform.DOScale(scaleRate, movingTime));
+        animationSequence.AppendCallback(() => noComboParticleSystem.Play());
+        
 
         var newColor = cardImage.color;
         newColor.a = 0f;
@@ -188,16 +199,17 @@ public class UICard : MonoBehaviour, IPointerClickHandler
 
         newColor = cardImage.color;
         newColor.a = 1f;
-        animationSequence.Append(cardImage.DOColor(newColor, transformationTime / 2)
-            .OnStart(() =>
-            {
-                cardImage.sprite = effectSprite;
-            }))
-            .OnComplete(() =>
-            {
-                noComboParticleSystem.Stop();
-            });
 
+        animationSequence.AppendCallback((() =>
+        {
+            cardImage.sprite = effectSprite;
+        }));
+        animationSequence.Append(cardImage.DOColor(newColor, transformationTime / 2));
+        animationSequence.AppendCallback((() =>
+        {
+            noComboParticleSystem.Stop(); 
+
+        }));
 
         var position = Camera.main.WorldToScreenPoint(player.transform.position);
         animationSequence.Append(rTransform.DOMove(position, movingTime));
@@ -210,5 +222,10 @@ public class UICard : MonoBehaviour, IPointerClickHandler
 
         animationManager.animationSequence.Append(animationSequence);
 
+    }
+
+    public void PlayGoOff()
+    {
+        Debug.Log("Go Off");
     }
 }

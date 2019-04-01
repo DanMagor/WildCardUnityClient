@@ -37,6 +37,7 @@ public class AnimationManager : MonoBehaviour
     {
       UICards = GetComponentsInChildren<UICard>();
       animationSequence = DOTween.Sequence();
+      MatchManager = GetComponent<ClientMatchManager>();
     }
 
     public void StartTimer(float time)
@@ -46,7 +47,14 @@ public class AnimationManager : MonoBehaviour
 
     public void ShowCards()
     {
-        throw new NotImplementedException();
+        //TODO: Rework architecture with CARDS, Change to ArrayList?
+        var i = 0;
+        foreach (var uiCard in UICards)
+        {
+            var cardID = MatchManager.Cards[i].ID;
+            uiCard.cardImage.sprite = ClientManager.allCardsSprites[cardID];
+            i++;
+        }
     }
 
     public void ToggleCard(int position)
@@ -61,16 +69,53 @@ public class AnimationManager : MonoBehaviour
 
     public void ShowResult()
     {
-        //temp:
-        int cardPosition = 1;
+
+        animationSequence.Kill();
         animationSequence = DOTween.Sequence();
-       
-        UICards[0].PlayAnimation(CardAnimationsStates.Combo);
-        UICards[1].PlayAnimation(CardAnimationsStates.Combo);
-        UICards[2].PlayAnimation(CardAnimationsStates.NoCombo);
-        UICards[3].PlayAnimation(CardAnimationsStates.NoCombo);
+
+
+        foreach (var cardPos in MatchManager.PlayerNotSelectedCards)
+        {
+            UICards[cardPos].PlayGoOff();
+        }
+
+        foreach (var card in MatchManager.PlayerSoloCards)
+        {
+            UICards[card].PlayAnimation(CardAnimationsStates.NoCombo);
+        }
+
+        foreach (var combinations in MatchManager.PlayerComboCards)
+        {
+            int i = 0;
+            Sprite comboSprite = null;
+            int direction = 0;
+            foreach (var cardPos in combinations)
+            {
+                if (i == 0)
+                {
+                    comboSprite = ClientManager.allCardsSprites[cardPos];
+                }
+
+                if (i == 1)
+                {
+                    direction = cardPos;
+                }
+
+                UICards[cardPos].comboCardSprite = comboSprite;
+                UICards[cardPos].PlayAnimation(CardAnimationsStates.Combo);
+            }
+        }
+
 
         
+
+       
+        
+       
+        animationSequence.AppendCallback(MatchManager.SendSetReady);
+        animationSequence.Play();
+
+
     }
 
 

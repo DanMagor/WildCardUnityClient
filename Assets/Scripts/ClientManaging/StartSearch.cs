@@ -8,7 +8,7 @@ public class StartSearch : MonoBehaviour {
 
     public void SearchOpponent()
     {
-        ClientTCP.PACKAGE_SearchOpponent();
+        ClientManager.RequestSearch();
     }
 
 }

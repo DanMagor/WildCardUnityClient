@@ -159,7 +159,7 @@ public class PlayerMatchManager : MonoBehaviour
         selectedCardID = cardID;
         target = bodyPart;
         
-        ClientTCP.PACKAGE_SendSelectedCard(matchID, selectedCardID, bodyPart);
+        ClientTCP.PACKAGE_Match_ToggleCard(matchID, selectedCardID);
     }
 
     public void SetTimerText(string text)
