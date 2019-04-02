@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -15,7 +16,7 @@ public class UICard : MonoBehaviour, IPointerClickHandler
 
     private AnimationManager animationManager;
 
-
+    public Sequence animationSequence;
 
     public Image cardImage;
 
@@ -39,15 +40,15 @@ public class UICard : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         //TODO: Check in InputManager that it's possible to click on Card
-        if (animationManager.animationSequence.active)
+        if (animationManager.wholeSequence.active)
         {
 
             return;
         }
 
-        if (animationManager.animationSequence.active)
+        if (animationManager.wholeSequence.active)
         {
-            animationManager.animationSequence.Pause();
+            animationManager.wholeSequence.Pause();
         }
         InputManager.ToggleCard(Position);
     }
@@ -69,6 +70,10 @@ public class UICard : MonoBehaviour, IPointerClickHandler
 
     private void Update()
     {
+        if (rTransform.localScale.x < 1.0f)
+        {
+            Debug.Break();
+        }
     }
 
 
@@ -78,10 +83,10 @@ public class UICard : MonoBehaviour, IPointerClickHandler
         switch (animationName)
         {
             case AnimationManager.CardAnimationsStates.Combo:
-                PlayCombo();
+                PlayComboAnimation();
                 break;
             case AnimationManager.CardAnimationsStates.NoCombo:
-                PlayNoCombo();
+                PlayNoComboAnimation();
                 break;
         }
 
@@ -91,28 +96,74 @@ public class UICard : MonoBehaviour, IPointerClickHandler
     }
 
 
-    private void PlayCombo()
+    private void PlayComboAnimation()
     {
-        Sequence animationSequence = DOTween.Sequence();
-        CardUIAnimator.enabled = false;
-        firstPoint.gameObject.SetActive(false);
+       animationSequence = DOTween.Sequence();
+       MoveToCenter();
+       PlayComboEffect();
+    }
 
-        var mainParticleSys = noComboParticleSystem.main;
-        if (noComboParticleSystem.isStopped)
+    private void PlayNoComboAnimation()
+    {
+        animationSequence = DOTween.Sequence();
+        MoveToCenter();
+        PlayNoComboEffect();
+
+    }
+
+    private void PlayNoComboEffect()
+    {
+    
+        
+
+
+        animationSequence.AppendCallback(() => noComboParticleSystem.Play());
+
+
+        var newColor = cardImage.color;
+        newColor.a = 0f;
+
+        animationSequence.Append(cardImage.DOColor(newColor, transformationTime / 2));
+
+
+        newColor = cardImage.color;
+        newColor.a = 1f;
+
+        animationSequence.AppendCallback((() =>
         {
-            mainParticleSys.duration = transformationTime;
-        }
+            cardImage.sprite = effectSprite;
+        }));
+        animationSequence.Append(cardImage.DOColor(newColor, transformationTime / 2));
+        animationSequence.AppendCallback((() =>
+        {
+            noComboParticleSystem.Stop();
 
-        animationSequence.Append(
-            rTransform.DOAnchorPos(firstPoint.anchoredPosition, movingTime));
-        animationSequence.Join(
-            rTransform.DOScale(scaleRate, movingTime));
+        }));
+
+        var position = Camera.main.WorldToScreenPoint(player.transform.position);
+        animationSequence.Append(rTransform.DOMove(position, movingTime));
+        animationSequence.AppendCallback(() =>
+        {
+            rTransform.anchoredPosition = m_StartingAnchorPosition;
+            cardImage.sprite = cardSprite;
+            rTransform.localScale = new Vector3(1f, 1f);
+        });
+
+        
+
+    }
+
+    //TODO: check is move the same as NoCombo Or Not
+    private void PlayComboEffect()
+    {
+        
+      
         animationSequence.AppendCallback((() =>
         {
             noComboParticleSystem.Play();
-            
+
         }));
-       
+
 
         var newColor = cardImage.color;
         newColor.a = 0f;
@@ -156,7 +207,7 @@ public class UICard : MonoBehaviour, IPointerClickHandler
         {
             noComboParticleSystem.Stop();
         }));
-            
+
 
 
         var position = Camera.main.WorldToScreenPoint(player.transform.position);
@@ -168,13 +219,11 @@ public class UICard : MonoBehaviour, IPointerClickHandler
             rTransform.localScale = new Vector3(1f, 1f);
         });
 
-        animationManager.animationSequence.Join(animationSequence);
-
+        
     }
 
-    private void PlayNoCombo()
+    private void MoveToCenter()
     {
-        var animationSequence = DOTween.Sequence();
         CardUIAnimator.enabled = false;
         firstPoint.gameObject.SetActive(false);
 
@@ -188,41 +237,8 @@ public class UICard : MonoBehaviour, IPointerClickHandler
             rTransform.DOAnchorPos(firstPoint.anchoredPosition, movingTime));
         animationSequence.Join(
             rTransform.DOScale(scaleRate, movingTime));
-        animationSequence.AppendCallback(() => noComboParticleSystem.Play());
-        
-
-        var newColor = cardImage.color;
-        newColor.a = 0f;
-
-        animationSequence.Append(cardImage.DOColor(newColor, transformationTime / 2));
-
-
-        newColor = cardImage.color;
-        newColor.a = 1f;
-
-        animationSequence.AppendCallback((() =>
-        {
-            cardImage.sprite = effectSprite;
-        }));
-        animationSequence.Append(cardImage.DOColor(newColor, transformationTime / 2));
-        animationSequence.AppendCallback((() =>
-        {
-            noComboParticleSystem.Stop(); 
-
-        }));
-
-        var position = Camera.main.WorldToScreenPoint(player.transform.position);
-        animationSequence.Append(rTransform.DOMove(position, movingTime));
-        animationSequence.AppendCallback(() =>
-        {
-            rTransform.anchoredPosition = m_StartingAnchorPosition;
-            cardImage.sprite = cardSprite;
-            rTransform.localScale = new Vector3(1f, 1f);
-        });
-
-        animationManager.animationSequence.Append(animationSequence);
-
     }
+
 
     public void PlayGoOff()
     {

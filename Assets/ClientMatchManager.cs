@@ -66,6 +66,7 @@ public class ClientMatchManager : MonoBehaviour
 
         PlayerSoloCards = new List<int>();
         int length = buffer.ReadInteger();
+        Debug.LogFormat("Solo cards count:{0}", length);
         for (int i = 0; i < length; i++)
         {
             PlayerSoloCards.Add(buffer.ReadInteger());
@@ -73,10 +74,12 @@ public class ClientMatchManager : MonoBehaviour
 
         PlayerComboCards = new List<List<int>>();
         length = buffer.ReadInteger();
+        Debug.LogFormat("Combos count:{0}", length);
         for (int i = 0; i < length; i++)
         {
             List<int> temp = new List<int>();
-            int length2 = buffer.ReadInteger();;
+            int length2 = buffer.ReadInteger();
+            Debug.LogFormat("Combo cards count:{0}", length2-2);
             for (int j = 0; j < length2; j++)
             {
                 temp.Add(buffer.ReadInteger());

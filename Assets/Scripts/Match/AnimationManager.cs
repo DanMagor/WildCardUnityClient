@@ -1,45 +1,35 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
-
 
 public class AnimationManager : MonoBehaviour
 {
-    public ClientMatchManager MatchManager;
-    public Text PlayerHPLabel;
-    public Text PlayerArmorLabel;
-    public Text EnemyHPLabel;
-    public Text EnemyArmorLabel;
-    public bool PlayTimerState;
-    public float TimerTime;
-    public float TimeRemains;
-    public UICard[] UICards;
-    public bool inAnimation;
     public Queue<UICard> animationQueue;
+    
+    public Text EnemyArmorLabel;
+    public Text EnemyHPLabel;
+    public bool inAnimation;
+    public ClientMatchManager MatchManager;
+    public Sequence comboCardsSequences;
+    public Sequence noComboCardsSequence;
+    public Text PlayerArmorLabel;
+    public Text PlayerHPLabel;
+    public bool PlayTimerState;
+    public float TimeRemains;
+    public float TimerTime;
+    public UICard[] UICards;
 
     public Sequence wholeSequence;
-    public Sequence noComboCardsSequence;
-    public Sequence comboCardsSequence;
-
-    public static class CardAnimationsStates
-    {
-        public const string Combo = "Combo";
-        public const string NoCombo = "NoCombo";
-
-    }
-
-   
-    
 
 
     private void Awake()
     {
-      UICards = GetComponentsInChildren<UICard>();
-      wholeSequence = DOTween.Sequence();
-      MatchManager = GetComponent<ClientMatchManager>();
+        UICards = GetComponentsInChildren<UICard>();
+        wholeSequence = DOTween.Sequence();
+        MatchManager = GetComponent<ClientMatchManager>();
     }
 
     public void StartTimer(float time)
@@ -71,80 +61,56 @@ public class AnimationManager : MonoBehaviour
 
     public void ShowResult()
     {
-
-
-
-        
-        noComboCardsSequence.Kill();
-        comboCardsSequence.Kill();
-        wholeSequence.Kill();
-
         noComboCardsSequence = DOTween.Sequence();
-        comboCardsSequence = DOTween.Sequence();
+        comboCardsSequences = DOTween.Sequence();
         wholeSequence = DOTween.Sequence();
-
 
 
         foreach (var cardPos in MatchManager.PlayerNotSelectedCards)
         {
+            Debug.LogFormat("Card {0} goes off", cardPos);
             UICards[cardPos].PlayGoOff();
         }
 
-        foreach (var card in MatchManager.PlayerSoloCards)
+        foreach (var cardPos in MatchManager.PlayerSoloCards)
         {
-            UICards[card].PlayAnimation(CardAnimationsStates.NoCombo);
-            noComboCardsSequence.Append(UICards[card].animationSequence);
-            
+            Debug.LogFormat("Card {0} NoCombo", cardPos);
+            UICards[cardPos].PlayAnimation(CardAnimationsStates.NoCombo);
+            noComboCardsSequence.Append(UICards[cardPos].animationSequence);
         }
+
         wholeSequence.Append(noComboCardsSequence);
 
-        foreach (var combinations in MatchManager.PlayerComboCards)
+
+        for (var i = 0; i < MatchManager.PlayerComboCards.Count; i++)
         {
-            int i = 0;
-            Sprite comboSprite = null;
-            int direction = 0;
+            Sequence tempSequence = DOTween.Sequence();
+            var combination = MatchManager.PlayerComboCards[i];
+            var comboSprite = ClientManager.allCardsSprites[combination[0]];
+            var direction = combination[1];
 
-            comboCardsSequence = DOTween.Sequence();
-            foreach (var cardPos in combinations)
+            for (var j = 2; j < combination.Count; j++)
             {
-                if (i == 0)
-                {
-                    comboSprite = ClientManager.allCardsSprites[cardPos];
-                    i++;
-                    continue;
-                   
-                }
-
-                if (i == 1)
-                {
-                    direction = cardPos;
-                    i++;
-                    continue;
-                }
-
+                var cardPos = combination[j];
+                Debug.LogFormat("Card {0} in Combo", cardPos);
                 UICards[cardPos].comboCardSprite = comboSprite;
                 UICards[cardPos].PlayAnimation(CardAnimationsStates.Combo);
-                comboCardsSequence.Join(UICards[cardPos].animationSequence);
 
-                i++;
+                tempSequence.Join(UICards[cardPos].animationSequence);
             }
 
-            wholeSequence.Append(comboCardsSequence);
+            comboCardsSequences.Append(tempSequence);
+
         }
+        wholeSequence.Append(comboCardsSequences);
 
-
-
-
-
-
-        wholeSequence.Append(noComboCardsSequence);
-        wholeSequence.Append(comboCardsSequence);
         wholeSequence.AppendCallback(MatchManager.SendSetReady);
-        wholeSequence.Play();
-
-
+        //wholeSequence.Play();
     }
 
-
+    public static class CardAnimationsStates
+    {
+        public const string Combo = "Combo";
+        public const string NoCombo = "NoCombo";
+    }
 }
-    

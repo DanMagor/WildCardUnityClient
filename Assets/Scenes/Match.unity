@@ -2219,6 +2219,11 @@ PrefabInstance:
       propertyPath: enemyArmorLabel
       value: 
       objectReference: {fileID: 1074217410}
+    - target: {fileID: 95327176769411956, guid: b1756c9b106385a408aa127b47e0241b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6137947084843747558, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
     - {fileID: 8914630403960607049, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
