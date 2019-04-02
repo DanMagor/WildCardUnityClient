@@ -1614,6 +1614,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClientMatchManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1111306848, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: m_FontData.m_HorizontalOverflow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111306848, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: m_FontData.m_VerticalOverflow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111306848, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4445017416313899484, guid: b1756c9b106385a408aa127b47e0241b,
         type: 3}
       propertyPath: m_IsActive
@@ -1639,10 +1651,62 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1760400770, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: m_FontData.m_HorizontalOverflow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1760400770, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: m_FontData.m_VerticalOverflow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1760400770, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1417417548, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: m_FontData.m_HorizontalOverflow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1417417548, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: m_FontData.m_VerticalOverflow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1417417548, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2094542942, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2000745323, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: m_FontData.m_HorizontalOverflow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2000745323, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: m_FontData.m_VerticalOverflow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2000745323, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1579020945, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: PlayerHPLabel
+      value: 
+      objectReference: {fileID: 1161929034}
+    - target: {fileID: 1579020945, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: PlayerArmorLabel
+      value: 
+      objectReference: {fileID: 104252934}
+    - target: {fileID: 1579020945, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: EnemyHPLabel
+      value: 
+      objectReference: {fileID: 1505957420}
+    - target: {fileID: 1579020945, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: EnemyArmorLabel
+      value: 
+      objectReference: {fileID: 1074217410}
     - target: {fileID: 4276705457701542, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1709,7 +1773,7 @@ PrefabInstance:
     - target: {fileID: 2094542946, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 281696658}
     - target: {fileID: 2094542946, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
       propertyPath: effectSprite
       value: 
@@ -1901,7 +1965,7 @@ PrefabInstance:
         type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 281696658}
     - target: {fileID: 5890867399557879430, guid: b1756c9b106385a408aa127b47e0241b,
         type: 3}
       propertyPath: effectSprite
@@ -2026,13 +2090,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 37721fb18eb3de74e885e438808cd683,
+      objectReference: {fileID: 21300000, guid: 549e1a86b2e190c47a31b532ac1547b6,
         type: 3}
     - target: {fileID: 5708568243425308734, guid: b1756c9b106385a408aa127b47e0241b,
         type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 281696658}
     - target: {fileID: 5708568243425308734, guid: b1756c9b106385a408aa127b47e0241b,
         type: 3}
       propertyPath: firstPoint
@@ -2084,13 +2148,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f1bf971d5347afb49a6bda7cd8f4e45e,
+      objectReference: {fileID: 21300000, guid: 1386b49112e7fce459c73a61895e330d,
         type: 3}
     - target: {fileID: 4431510497731680271, guid: b1756c9b106385a408aa127b47e0241b,
         type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 281696658}
     - target: {fileID: 4431510497731680271, guid: b1756c9b106385a408aa127b47e0241b,
         type: 3}
       propertyPath: firstPoint
@@ -2139,20 +2203,20 @@ PrefabInstance:
       propertyPath: AnimationManager
       value: 
       objectReference: {fileID: 1976349993}
-    - target: {fileID: 1579020945, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
-      propertyPath: PlayerHPLabel
+    - target: {fileID: 1579020946, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: playerHPLabel
       value: 
       objectReference: {fileID: 1161929034}
-    - target: {fileID: 1579020945, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
-      propertyPath: PlayerArmorLabel
+    - target: {fileID: 1579020946, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: playerArmorLabel
       value: 
       objectReference: {fileID: 104252934}
-    - target: {fileID: 1579020945, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
-      propertyPath: EnemyHPLabel
+    - target: {fileID: 1579020946, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: enemyHPLabel
       value: 
       objectReference: {fileID: 1505957420}
-    - target: {fileID: 1579020945, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
-      propertyPath: EnemyArmorLabel
+    - target: {fileID: 1579020946, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: enemyArmorLabel
       value: 
       objectReference: {fileID: 1074217410}
     m_RemovedComponents:

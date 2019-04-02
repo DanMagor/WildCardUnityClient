@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mime;
 using Assets.Prefabs.DataSaving;
 using UnityEngine;
+using UnityEngine.UI; //TODO: Delete
 
 public class ClientMatchManager : MonoBehaviour
 {
@@ -21,8 +23,14 @@ public class ClientMatchManager : MonoBehaviour
     public int EnemyHP;
     public int EnemyArmor;
 
+    
 
+    //TODO: Move to UI Class
+    public Text playerHPLabel;
+    public Text playerArmorLabel;
 
+    public Text enemyHPLabel;
+    public Text enemyArmorLabel;
 
 
 
@@ -53,19 +61,23 @@ public class ClientMatchManager : MonoBehaviour
     public void ShowResult(ByteBuffer buffer)
     {
 
+        buffer.ReadInteger();
         amIShot = buffer.ReadBool();
 
         PlayerSoloCards = new List<int>();
-        for (int i = 0; i < buffer.ReadInteger(); i++)
+        int length = buffer.ReadInteger();
+        for (int i = 0; i < length; i++)
         {
             PlayerSoloCards.Add(buffer.ReadInteger());
         }
 
         PlayerComboCards = new List<List<int>>();
-        for (int i = 0; i < buffer.ReadInteger(); i++)
+        length = buffer.ReadInteger();
+        for (int i = 0; i < length; i++)
         {
             List<int> temp = new List<int>();
-            for (int j = 0; j < buffer.ReadInteger(); j++)
+            int length2 = buffer.ReadInteger();;
+            for (int j = 0; j < length2; j++)
             {
                 temp.Add(buffer.ReadInteger());
             }
@@ -73,7 +85,8 @@ public class ClientMatchManager : MonoBehaviour
         }
 
         PlayerNotSelectedCards = new List<int>();
-        for (int i = 0; i < buffer.ReadInteger(); i++)
+        length = buffer.ReadInteger();
+        for (int i = 0; i < length; i++)
         {
             PlayerNotSelectedCards.Add(buffer.ReadInteger());
         }
@@ -82,8 +95,13 @@ public class ClientMatchManager : MonoBehaviour
         PlayerHP = buffer.ReadInteger();
         PlayerArmor = buffer.ReadInteger();
 
+        //TODO: Move to UI class
+        playerHPLabel.text = PlayerHP.ToString();
+        playerArmorLabel.text = PlayerArmor.ToString();
+
         EnemySelectedCards = new List<int>();
-        for (int i = 0; i < buffer.ReadInteger(); i++)
+        length = buffer.ReadInteger();
+        for (int i = 0; i < length; i++)
         {
             EnemySelectedCards.Add(buffer.ReadInteger());
         }
@@ -91,11 +109,10 @@ public class ClientMatchManager : MonoBehaviour
         EnemyHP = buffer.ReadInteger();
         EnemyArmor = buffer.ReadInteger();
 
+        //TODO: Move to UI class
+        enemyHPLabel.text = EnemyHP.ToString();
+        enemyArmorLabel.text = EnemyArmor.ToString();
 
-       
-
-
-        
 
 
 

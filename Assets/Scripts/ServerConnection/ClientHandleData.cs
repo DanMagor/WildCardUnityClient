@@ -27,7 +27,9 @@ public class ClientHandleData
             {(int) ServerPackages.SShowCards, Handle_Match_ShowCards},
             {(int) ServerPackages.SSendAllCards, Handle_Client_AllCardsData},
             {(int) ServerPackages.SShowResult, HandleShowResult},
-            {(int) ServerPackages.SFinishGame, HandleFinishGame}
+            {(int) ServerPackages.SFinishGame, HandleFinishGame},
+            {(int) ServerPackages.SConfirmToggleCard, Handle_Match_ConfirmToggleCard}
+            
         };
     }
 
@@ -178,6 +180,14 @@ public class ClientHandleData
        buffer.WriteBytes(data);
        clientMatchManager.ShowResult(buffer);
     }
+
+
+    private static void Handle_Match_ConfirmToggleCard(byte[] data)
+    {
+        Debug.Log("Confirm Toggle");
+        //TODO: Add logic Later
+    }
+
 
     private static void HandleFinishGame(byte[] data)
     {

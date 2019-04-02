@@ -20,7 +20,9 @@ public class AnimationManager : MonoBehaviour
     public bool inAnimation;
     public Queue<UICard> animationQueue;
 
-    public Sequence animationSequence;
+    public Sequence wholeSequence;
+    public Sequence noComboCardsSequence;
+    public Sequence comboCardsSequence;
 
     public static class CardAnimationsStates
     {
@@ -36,7 +38,7 @@ public class AnimationManager : MonoBehaviour
     private void Awake()
     {
       UICards = GetComponentsInChildren<UICard>();
-      animationSequence = DOTween.Sequence();
+      wholeSequence = DOTween.Sequence();
       MatchManager = GetComponent<ClientMatchManager>();
     }
 
@@ -70,8 +72,17 @@ public class AnimationManager : MonoBehaviour
     public void ShowResult()
     {
 
-        animationSequence.Kill();
-        animationSequence = DOTween.Sequence();
+
+
+        
+        noComboCardsSequence.Kill();
+        comboCardsSequence.Kill();
+        wholeSequence.Kill();
+
+        noComboCardsSequence = DOTween.Sequence();
+        comboCardsSequence = DOTween.Sequence();
+        wholeSequence = DOTween.Sequence();
+
 
 
         foreach (var cardPos in MatchManager.PlayerNotSelectedCards)
@@ -82,38 +93,54 @@ public class AnimationManager : MonoBehaviour
         foreach (var card in MatchManager.PlayerSoloCards)
         {
             UICards[card].PlayAnimation(CardAnimationsStates.NoCombo);
+            noComboCardsSequence.Append(UICards[card].animationSequence);
+            
         }
+        wholeSequence.Append(noComboCardsSequence);
 
         foreach (var combinations in MatchManager.PlayerComboCards)
         {
             int i = 0;
             Sprite comboSprite = null;
             int direction = 0;
+
+            comboCardsSequence = DOTween.Sequence();
             foreach (var cardPos in combinations)
             {
                 if (i == 0)
                 {
                     comboSprite = ClientManager.allCardsSprites[cardPos];
+                    i++;
+                    continue;
+                   
                 }
 
                 if (i == 1)
                 {
                     direction = cardPos;
+                    i++;
+                    continue;
                 }
 
                 UICards[cardPos].comboCardSprite = comboSprite;
                 UICards[cardPos].PlayAnimation(CardAnimationsStates.Combo);
+                comboCardsSequence.Join(UICards[cardPos].animationSequence);
+
+                i++;
             }
+
+            wholeSequence.Append(comboCardsSequence);
         }
 
 
-        
 
-       
-        
-       
-        animationSequence.AppendCallback(MatchManager.SendSetReady);
-        animationSequence.Play();
+
+
+
+        wholeSequence.Append(noComboCardsSequence);
+        wholeSequence.Append(comboCardsSequence);
+        wholeSequence.AppendCallback(MatchManager.SendSetReady);
+        wholeSequence.Play();
 
 
     }

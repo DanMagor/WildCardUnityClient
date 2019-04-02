@@ -16,4 +16,10 @@ public class CowboyEntityController : MonoBehaviour
         Particles.Play();
     }
 
+
+    private void Update()
+    {
+
+    }
+
 }
