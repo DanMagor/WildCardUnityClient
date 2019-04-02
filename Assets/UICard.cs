@@ -60,6 +60,8 @@ public class UICard : MonoBehaviour, IPointerClickHandler
         rTransform = GetComponent<RectTransform>();
         cardImage = GetComponent<Image>();
         animationManager = GetComponentInParent<AnimationManager>();
+        DOTween.defaultAutoPlay = AutoPlay.None;
+        animationSequence = DOTween.Sequence();
         m_StartingAnchorPosition = rTransform.anchoredPosition;
 
     }
@@ -70,16 +72,13 @@ public class UICard : MonoBehaviour, IPointerClickHandler
 
     private void Update()
     {
-        if (rTransform.localScale.x < 1.0f)
-        {
-            Debug.Break();
-        }
+        
     }
 
 
     public void PlayAnimation(string animationName)
     {
-
+        DOTween.defaultAutoPlay = AutoPlay.None;
         switch (animationName)
         {
             case AnimationManager.CardAnimationsStates.Combo:
@@ -113,7 +112,11 @@ public class UICard : MonoBehaviour, IPointerClickHandler
 
     private void PlayNoComboEffect()
     {
-    
+     var mainParticleSys = noComboParticleSystem.main;
+        if (noComboParticleSystem.isStopped)
+        {
+            mainParticleSys.duration = transformationTime;
+        }
         
 
 
@@ -157,7 +160,15 @@ public class UICard : MonoBehaviour, IPointerClickHandler
     private void PlayComboEffect()
     {
         
-      
+        var mainParticleSys = noComboParticleSystem.main;
+        if (noComboParticleSystem.isStopped)
+        {
+            mainParticleSys.duration = transformationTime;
+        }
+
+
+        
+
         animationSequence.AppendCallback((() =>
         {
             noComboParticleSystem.Play();
@@ -191,7 +202,7 @@ public class UICard : MonoBehaviour, IPointerClickHandler
             noComboParticleSystem.Play();
         }));
 
-        rTransform.localScale = scaleRate;
+        
         newColor.a = 0f;
         animationSequence.Append(cardImage.DOColor(newColor, transformationTime / 2));
         animationSequence.Join(rTransform.DOScale(scaleRate, transformationTime / 2));
@@ -227,11 +238,7 @@ public class UICard : MonoBehaviour, IPointerClickHandler
         CardUIAnimator.enabled = false;
         firstPoint.gameObject.SetActive(false);
 
-        var mainParticleSys = noComboParticleSystem.main;
-        if (noComboParticleSystem.isStopped)
-        {
-            mainParticleSys.duration = transformationTime;
-        }
+       
 
         animationSequence.Append(
             rTransform.DOAnchorPos(firstPoint.anchoredPosition, movingTime));

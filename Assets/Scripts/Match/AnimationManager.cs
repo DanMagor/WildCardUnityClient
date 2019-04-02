@@ -28,7 +28,6 @@ public class AnimationManager : MonoBehaviour
     private void Awake()
     {
         UICards = GetComponentsInChildren<UICard>();
-        wholeSequence = DOTween.Sequence();
         MatchManager = GetComponent<ClientMatchManager>();
     }
 
@@ -61,6 +60,7 @@ public class AnimationManager : MonoBehaviour
 
     public void ShowResult()
     {
+        DOTween.defaultAutoPlay = AutoPlay.None;
         noComboCardsSequence = DOTween.Sequence();
         comboCardsSequences = DOTween.Sequence();
         wholeSequence = DOTween.Sequence();
@@ -79,7 +79,7 @@ public class AnimationManager : MonoBehaviour
             noComboCardsSequence.Append(UICards[cardPos].animationSequence);
         }
 
-        wholeSequence.Append(noComboCardsSequence);
+           wholeSequence.Append(noComboCardsSequence);
 
 
         for (var i = 0; i < MatchManager.PlayerComboCards.Count; i++)
@@ -105,7 +105,7 @@ public class AnimationManager : MonoBehaviour
         wholeSequence.Append(comboCardsSequences);
 
         wholeSequence.AppendCallback(MatchManager.SendSetReady);
-        //wholeSequence.Play();
+        wholeSequence.Play();
     }
 
     public static class CardAnimationsStates
