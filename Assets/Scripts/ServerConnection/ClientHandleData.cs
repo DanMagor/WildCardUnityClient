@@ -194,7 +194,7 @@ public class ClientHandleData
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteBytes(data);
         buffer.ReadInteger(); //Read Package ID
-           // clientMatchManager.FinishGame(buffer.ReadString());
+        clientMatchManager.FinishGame(buffer);
     }
 
 }

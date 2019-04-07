@@ -9,14 +9,18 @@ public class ClientManager : MonoBehaviour
     public static Dictionary<int, CardInstanceSerializable> allCardsInfo = new Dictionary<int, CardInstanceSerializable>();
 
     public static Dictionary<int, Sprite> allCardsSprites = new Dictionary<int, Sprite>();
+    public static Dictionary<int, Sprite> allEffectsSprites = new Dictionary<int, Sprite>();
+    public static Dictionary<int, Sprite> directionSprites;
+
+
 
     private ClientMatchManager currentMatchManager;
 
 
     public string playerUsername;
 
-    [SerializeField] private string ipAddress;
-    [SerializeField] private int port;
+    [SerializeField] private string ipAddress = "127.0.0.1";
+    [SerializeField] private int port = 5555;
 
 
 
@@ -37,6 +41,33 @@ public class ClientManager : MonoBehaviour
         //Connection
         ClientHandleData.InitializePacketListener();
         ClientTCP.InitializeClientSocket(ipAddress, port);
+
+        directionSprites = new Dictionary<int, Sprite>()
+        {
+
+        {0, Resources.Load<Sprite>("Effects/LeftArrow") },
+        {1, Resources.Load<Sprite>("Effects/RightArrow") }
+
+        };
+    }
+
+    public void InitializeClientManager()
+    {
+        // This two methods for working with TCP in Unity Thread
+        DontDestroyOnLoad(this);
+        UnityThread.initUnityThread();
+
+        //Connection
+        ClientHandleData.InitializePacketListener();
+        ClientTCP.InitializeClientSocket(ipAddress, port);
+
+        directionSprites = new Dictionary<int, Sprite>()
+        {
+
+            {0, Resources.Load<Sprite>("Effects/LeftArrow") },
+            {1, Resources.Load<Sprite>("Effects/RightArrow") }
+
+        };
     }
 
 
@@ -52,13 +83,14 @@ public class ClientManager : MonoBehaviour
 
     public void LoadMatch(byte[] data)
     {
-        if (currentMatchManager != null)
-        {
-            Debug.LogError("MatchManager is not null!");
-            throw new Exception("MatchManager is not null!");
+      
+        //if (currentMatchManager != null)
+        //{
+        //    Debug.LogError("MatchManager is not null!");
+        //    throw new Exception("MatchManager is not null!");
 
-        }
-
+        //}
+        
         var buffer = new ByteBuffer();
         currentMatchManager = GameObject.FindObjectOfType<ClientMatchManager>();
 
@@ -79,15 +111,20 @@ public class ClientManager : MonoBehaviour
 
     private void MatchSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log("Scene is loaded");
         currentMatchManager = FindObjectOfType<ClientMatchManager>();
         currentMatchManager.matchID = matchInfo.matchID;
         currentMatchManager.PlayerEntityController.userName = matchInfo.playerUsername;
         currentMatchManager.EnemyEntityController.userName = matchInfo.enemyUsername;
         ClientHandleData.clientMatchManager = currentMatchManager;
+        currentMatchManager.SendSetReady();
+
         SceneManager.sceneLoaded -= MatchSceneLoaded;
-        
+
     }
-    
+
+   
+
     //TODO: Think about saving in JSON. Rewrite? DO we need to save them in files?
     public void SaveAllCardsData(byte[] data)
     {
@@ -119,7 +156,8 @@ public class ClientManager : MonoBehaviour
 
             allCardsInfo[cardInstance.ID] = cardInstance;
 
-            allCardsSprites[cardInstance.ID] = Resources.Load<Sprite>("Cards/"+cardInstance.CardImage);
+            allCardsSprites[cardInstance.ID] = Resources.Load<Sprite>("Cards/" + cardInstance.CardImage);
+            allEffectsSprites[cardInstance.ID] = Resources.Load<Sprite>("Effects/" + cardInstance.ItemImage);
 
             ///////////////////////////// TO DO : CHECK DO I NEED IT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
             ////Saving to JSON. DO we need it?
@@ -137,9 +175,9 @@ public class ClientManager : MonoBehaviour
     }
 
 
-    
 
-   
+
+
 
     public static void RequestSearch()
     {

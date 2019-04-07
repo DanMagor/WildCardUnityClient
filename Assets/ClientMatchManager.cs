@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mime;
 using Assets.Prefabs.DataSaving;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI; //TODO: Delete
 
@@ -12,32 +13,26 @@ public class ClientMatchManager : MonoBehaviour
 
     #region RoundResults
 
+    [NonSerialized]
     public bool amIShot;
+    [NonSerialized]
     public List<int> PlayerSoloCards;
+    [NonSerialized]
     public List<List<int>> PlayerComboCards;
+    [NonSerialized]
     public List<int> PlayerNotSelectedCards;
-
-    public int PlayerHP;
-    public int PlayerArmor;
+    [NonSerialized]
     public List<int> EnemySelectedCards;
-    public int EnemyHP;
-    public int EnemyArmor;
-
+  
     
 
-    //TODO: Move to UI Class
-    public Text playerHPLabel;
-    public Text playerArmorLabel;
-
-    public Text enemyHPLabel;
-    public Text enemyArmorLabel;
+    
 
 
 
     #endregion
 
-    [NonSerialized]
-    public bool Ready = false;
+   
 
     public CardInstanceSerializable[] Cards;
 
@@ -47,26 +42,39 @@ public class ClientMatchManager : MonoBehaviour
     public CowboyEntityController PlayerEntityController;
     public CowboyEntityController EnemyEntityController;
 
+    public ShootButton shootButton;
+
+    public static MatchStates matchState;
+    public enum MatchStates
+    {
+        CardChoosing,
+        ResultShowing,
+        Waiting
+    }
+
     private void Awake()
     {
         AnimationManager = GetComponent<AnimationManager>();
-       
+        matchState = MatchStates.Waiting;
+
     }
 
     private void Start()
     {
-        SendSetReady();
+        
     }
 
     public void ShowResult(ByteBuffer buffer)
     {
+        if(matchState != MatchStates.CardChoosing && matchState != MatchStates.Waiting) return;
+        matchState = MatchStates.ResultShowing;
 
         buffer.ReadInteger();
         amIShot = buffer.ReadBool();
 
         PlayerSoloCards = new List<int>();
         int length = buffer.ReadInteger();
-        Debug.LogFormat("Solo cards count:{0}", length);
+     
         for (int i = 0; i < length; i++)
         {
             PlayerSoloCards.Add(buffer.ReadInteger());
@@ -74,12 +82,12 @@ public class ClientMatchManager : MonoBehaviour
 
         PlayerComboCards = new List<List<int>>();
         length = buffer.ReadInteger();
-        Debug.LogFormat("Combos count:{0}", length);
+       
         for (int i = 0; i < length; i++)
         {
             List<int> temp = new List<int>();
             int length2 = buffer.ReadInteger();
-            Debug.LogFormat("Combo cards count:{0}", length2-2);
+           
             for (int j = 0; j < length2; j++)
             {
                 temp.Add(buffer.ReadInteger());
@@ -95,43 +103,47 @@ public class ClientMatchManager : MonoBehaviour
         }
         
 
-        PlayerHP = buffer.ReadInteger();
-        PlayerArmor = buffer.ReadInteger();
 
-        //TODO: Move to UI class
-        playerHPLabel.text = PlayerHP.ToString();
-        playerArmorLabel.text = PlayerArmor.ToString();
+        var PlayerHP = buffer.ReadInteger();
+        var PlayerArmor = buffer.ReadInteger();
+
+        
 
         EnemySelectedCards = new List<int>();
         length = buffer.ReadInteger();
         for (int i = 0; i < length; i++)
         {
-            EnemySelectedCards.Add(buffer.ReadInteger());
+            EnemySelectedCards.Add(buffer.ReadInteger()); //Id then Direction
         }
 
-        EnemyHP = buffer.ReadInteger();
-        EnemyArmor = buffer.ReadInteger();
-
-        //TODO: Move to UI class
-        enemyHPLabel.text = EnemyHP.ToString();
-        enemyArmorLabel.text = EnemyArmor.ToString();
+        var EnemyHP = buffer.ReadInteger();
+        var EnemyArmor = buffer.ReadInteger();
 
 
 
-
+       
 
         AnimationManager.ShowResult();
 
 
-        
-       
-        
+        //To ensure that UI Displays coreect values
+        //PlayerEntityController.HP = PlayerHP;
+        //PlayerEntityController.Armor = PlayerArmor;
+        //PlayerEntityController.UpdateUI();
+
+        //EnemyEntityController.HP = EnemyHP;
+        //EnemyEntityController.Armor = EnemyArmor;
+        //EnemyEntityController.UpdateUI();
+
+
+
     }
 
     
 
     public void SendSetReady()
     {
+       matchState = MatchStates.Waiting;
        ClientTCP.PACKAGE_SetReady(matchID);
     }
 
@@ -166,24 +178,34 @@ public class ClientMatchManager : MonoBehaviour
 
     public void ShowCards(ByteBuffer data)
     {
+        if (matchState != MatchStates.Waiting) return;
+        matchState = MatchStates.CardChoosing;
         AnimationManager.ShowCards();
     }
 
-    public void SendToggleCard(int position)
-    {
-      ClientTCP.PACKAGE_Match_ToggleCard(matchID, position);
-    }
+   
 
-    public void ToggleCard(ByteBuffer data)
+    public void ToggleCard(int position)
     {
-        throw new NotImplementedException();
+        ClientTCP.PACKAGE_Match_ToggleCard(matchID, position);
     }
     public void MakeShoot()
     {
+        matchState = MatchStates.Waiting;
         ClientTCP.PACKAGE_Match_Shot(matchID);
     }
 
+    public void FinishGame(ByteBuffer data)
+    {
+        var winnerUsername = data.ReadString();
+        AnimationManager.FinishGame(winnerUsername);
+        
+    }
 
+    public void RestartMatch()
+    {
+        ClientTCP.PACKAGE_SendRestartMatch(matchID);
+    }
 
 
 
