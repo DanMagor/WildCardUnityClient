@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class UICard : MonoBehaviour, IPointerClickHandler
 {
-    public static float movingTime = 3f;//0.3f
+    public static float movingTime = 0.5f; //0.3f
     public static float transformationTime = 0.5f;
     public static float hidingShowingTime = 0.1f;
 
@@ -77,14 +77,8 @@ public class UICard : MonoBehaviour, IPointerClickHandler
 
     }
 
-    private void Start()
-    {
-    }
 
-    private void Update()
-    {
-
-    }
+ 
 
 
 
@@ -112,7 +106,7 @@ public class UICard : MonoBehaviour, IPointerClickHandler
 
         var newColor = directionImage.color;
         newColor.a = 1f;
-        //TODO: IMPORTANT! maybe delete later
+        //TODO: IMPORTANT! maybe delete later //Setup default Colors for Cards
         animationSequence.Append(cardValue.DOColor(newColor, 0));
         animationSequence.Append(directionImage.DOColor(newColor, 0));
 
@@ -135,7 +129,6 @@ public class UICard : MonoBehaviour, IPointerClickHandler
     public void PlayEnemyCardAnimation()
     {
        
-
         MoveToCenterEnemyCard();
         PlayNoComboEffect();
         PlaceEnemyCardToInitialPosition();
@@ -152,9 +145,9 @@ public class UICard : MonoBehaviour, IPointerClickHandler
 
 
         animationSequence.Append(
-            rTransform.DOAnchorPos(firstPoint.anchoredPosition, movingTime));
+            rTransform.DOAnchorPos(firstPoint.anchoredPosition, movingTime/2));
         animationSequence.Join(
-            rTransform.DOScale(new Vector3(1f, 1f, 1f), movingTime));
+            rTransform.DOScale(new Vector3(1f, 1f, 1f), movingTime/2));
         var newColor = m_InitialColor;
         newColor.a = 1;
         var textColor = cardValue.color;
@@ -164,12 +157,9 @@ public class UICard : MonoBehaviour, IPointerClickHandler
            //  animationSequence.Join(directionImage.DOColor(newColor, movingTime/2));
 
         animationSequence.Append(
-            rTransform.DOScale(scaleRate, movingTime));
+            rTransform.DOScale(scaleRate, movingTime/2));
 
-        newColor = cardImage.color;
-        newColor.a = 0f;
-        animationSequence.Join(directionImage.DOColor(newColor, movingTime));
-        animationSequence.Join(cardValue.DOColor(newColor, movingTime));
+        
 
 
     }
@@ -206,30 +196,30 @@ public class UICard : MonoBehaviour, IPointerClickHandler
 
     private void PlayNoComboEffect()
     {
+
+        //Play Smoke Effect
         var mainParticleSys = noComboParticleSystem.main;
         if (noComboParticleSystem.isStopped)
         {
             mainParticleSys.duration = transformationTime;
         }
-
-
-
         animationSequence.AppendCallback(() => noComboParticleSystem.Play());
 
-
+        //Hide Card in Smoke
         var newColor = cardImage.color;
         newColor.a = 0f;
-
         animationSequence.Append(cardImage.DOColor(newColor, transformationTime / 2));
+        animationSequence.Join(directionImage.DOColor(newColor, transformationTime / 2));
+        animationSequence.Join(cardValue.DOColor(newColor, transformationTime / 2));
 
 
-        newColor = cardImage.color;
-        newColor.a = 1f;
-
+        //Reveal item and hide smoke
         animationSequence.AppendCallback((() =>
         {
             cardImage.sprite = effectSprite;
         }));
+        newColor = cardImage.color;
+        newColor.a = 1f;
         animationSequence.Append(cardImage.DOColor(newColor, transformationTime / 2));
         animationSequence.AppendCallback((() =>
         {
@@ -237,6 +227,7 @@ public class UICard : MonoBehaviour, IPointerClickHandler
 
         }));
 
+        //Detect Direction and through the item
         var target = direction == 0 ? player : enemy;
         var position = Camera.main.WorldToScreenPoint(target.transform.position);
         animationSequence.Append(rTransform.DOMove(position, movingTime));
@@ -254,34 +245,33 @@ public class UICard : MonoBehaviour, IPointerClickHandler
 
     private void PlayComboEffect()
     {
-
+        //Play Smoke Particle Effect
         var mainParticleSys = noComboParticleSystem.main;
         if (noComboParticleSystem.isStopped)
         {
             mainParticleSys.duration = transformationTime;
         }
-
-
-
-
         animationSequence.AppendCallback((() =>
         {
             noComboParticleSystem.Play();
-
         }));
 
 
+        //Hide Card in Smoke
         var newColor = cardImage.color;
         newColor.a = 0f;
-
         animationSequence.Append(cardImage.DOColor(newColor, transformationTime / 2));
+        animationSequence.Join(directionImage.DOColor(newColor, transformationTime / 2));
+        animationSequence.Join(cardValue.DOColor(newColor, transformationTime / 2));
+     
 
-        newColor = cardImage.color;
-        newColor.a = 1f;
+        //Reveal Combo card From Smoke
         animationSequence.AppendCallback((() =>
         {
             cardImage.sprite = comboCardSprite;
         }));
+        newColor = cardImage.color;
+        newColor.a = 1f;
         animationSequence.Append(cardImage.DOColor(newColor, transformationTime / 2));
 
         animationSequence.AppendCallback((() =>
@@ -289,19 +279,24 @@ public class UICard : MonoBehaviour, IPointerClickHandler
             noComboParticleSystem.Stop();
             noComboParticleSystem.Clear();
         }));
-
         animationSequence.Join(rTransform.DOScale(new Vector3(1f, 1f), transformationTime / 2));
+
+        //Wait for some Time
         animationSequence.AppendInterval(transformationTime / 3);
+
+        //Hide Combo Card in smoke (for transformation to item)
         animationSequence.AppendCallback((() =>
         {
             noComboParticleSystem.Play();
         }));
-
-
+        newColor = cardImage.color;
         newColor.a = 0f;
         animationSequence.Append(cardImage.DOColor(newColor, transformationTime / 2));
         animationSequence.Join(rTransform.DOScale(scaleRate, transformationTime / 2));
 
+
+
+        //Reveal Item from smoke
         newColor = cardImage.color;
         newColor.a = 1f;
         animationSequence.AppendCallback((() =>
@@ -315,7 +310,7 @@ public class UICard : MonoBehaviour, IPointerClickHandler
         }));
 
 
-
+        //Detect Direction and through the item
         var target = direction == 0 ? player : enemy;
         var finalPosition = Camera.main.WorldToScreenPoint(target.transform.position);
         animationSequence.Append(rTransform.DOMove(finalPosition, movingTime));
@@ -325,27 +320,17 @@ public class UICard : MonoBehaviour, IPointerClickHandler
             cardImage.sprite = cardSprite;
             rTransform.localScale = new Vector3(1f, 1f);
         });
-
-
-
-
-
     }
 
     private void MoveToCenter()
     {
         CardUIAnimator.enabled = false;
         
-
         animationSequence.Append(
             rTransform.DOAnchorPos(firstPoint.anchoredPosition, movingTime));
         animationSequence.Join(
             rTransform.DOScale(scaleRate, movingTime));
-
-        var newColor = cardImage.color;
-        newColor.a = 0f;
-        animationSequence.Join(directionImage.DOColor(newColor, movingTime));
-        animationSequence.Join(cardValue.DOColor(newColor, movingTime));
+        
     }
 
 

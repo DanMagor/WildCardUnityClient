@@ -1327,7 +1327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerUsername: 
-  ipAddress: 127.0.0.1
+  ipAddress: 192.168.137.1
   port: 5555
 --- !u!4 &2147238538
 Transform:
