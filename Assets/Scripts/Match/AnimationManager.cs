@@ -29,10 +29,7 @@ public class AnimationManager : MonoBehaviour
     public Text winnerText;
 
 
-    private void Awake()
-    {
-       
-    }
+
 
     public void Start()
     {
@@ -100,8 +97,48 @@ public class AnimationManager : MonoBehaviour
             PlayPlayerCards();
         }
 
-        wholeSequence.AppendCallback(MatchManager.SendSetReady);
       
+
+
+        //To ensure that UI Displays correct values
+        wholeSequence.AppendCallback(() =>
+       {
+
+          
+           if (MatchManager.PlayerEntityController.HP != MatchManager.PlayerHP)
+           {
+               Debug.LogError("Player has Incorrect HP Value");
+               Debug.LogFormat("Has {0}, but should has {1}", MatchManager.PlayerEntityController.HP, MatchManager.PlayerHP);
+               MatchManager.PlayerEntityController.HP = MatchManager.PlayerHP;
+               MatchManager.PlayerEntityController.UpdateUI();
+           }
+
+           if (MatchManager.PlayerEntityController.Armor != MatchManager.PlayerArmor)
+           {
+               Debug.LogError("Player has Incorrect Armor Value");
+               Debug.LogFormat("Has {0}, but should has {1}", MatchManager.PlayerEntityController.Armor, MatchManager.PlayerArmor);
+               MatchManager.PlayerEntityController.Armor = MatchManager.PlayerArmor;
+               MatchManager.PlayerEntityController.UpdateUI();
+           }
+
+           if (MatchManager.EnemyEntityController.HP != MatchManager.EnemyHP)
+           {
+               Debug.LogError("Enemy has Incorrect HP Value");
+               Debug.LogFormat("Has {0}, but should has {1}", MatchManager.EnemyEntityController.HP, MatchManager.EnemyHP);
+               MatchManager.EnemyEntityController.HP = MatchManager.EnemyHP;
+               MatchManager.EnemyEntityController.UpdateUI();
+           }
+
+           if (MatchManager.EnemyEntityController.Armor != MatchManager.EnemyArmor)
+           {
+               Debug.LogError("Enemy has Incorrect Armor Value");
+               Debug.LogFormat("Has {0}, but should has {1}", MatchManager.EnemyEntityController.Armor, MatchManager.EnemyArmor);
+               MatchManager.EnemyEntityController.Armor = MatchManager.EnemyArmor;
+               MatchManager.EnemyEntityController.UpdateUI();
+           }
+       });
+
+        wholeSequence.AppendCallback(MatchManager.SendSetReady);
         wholeSequence.Play();
     }
 
@@ -125,13 +162,13 @@ public class AnimationManager : MonoBehaviour
         else
         {
             var looser = MatchManager.PlayerEntityController.userName == winnerUsername
-                ? MatchManager.PlayerEntityController
-                : MatchManager.EnemyEntityController;
+                ? MatchManager.EnemyEntityController
+                : MatchManager.PlayerEntityController;
             looser.Die();
         }
 
         winnerText.enabled = true;
-        winnerText.text = "The winner is: \n" + winnerUsername + "! +\n Press RMB for Restart";
+        winnerText.text = "The winner is: \n" + winnerUsername + "!"; //+\n Press RMB for Restart";
 
     }
 
@@ -165,7 +202,7 @@ public class AnimationManager : MonoBehaviour
             noComboCardsSequence.Append(UICards[cardPos].animationSequence);
 
             var cowboy = card.direction == 0 ? MatchManager.PlayerEntityController : MatchManager.EnemyEntityController;
-           // noComboCardsSequence.AppendCallback(() => cowboy.HitByCard(card));
+            noComboCardsSequence.AppendCallback(() => cowboy.HitByCard(card));
         }
         noComboCardsSequence.AppendCallback((() => kostil = "kostil"));
         wholeSequence.Append(noComboCardsSequence);
@@ -196,7 +233,7 @@ public class AnimationManager : MonoBehaviour
             comboCardsSequences.Append(tempSequence);
             var cowboy = direction == 0 ? MatchManager.PlayerEntityController : MatchManager.EnemyEntityController;
             var card = ClientManager.allCardsInfo[combination[0]]; //combination 0 - Result Combo Card ID
-           // comboCardsSequences.AppendCallback(() => cowboy.HitByCard(card));
+            comboCardsSequences.AppendCallback(() => cowboy.HitByCard(card));
         }
         comboCardsSequences.AppendCallback((() => kostil = "kostil"));
         wholeSequence.Append(comboCardsSequences);
@@ -211,8 +248,8 @@ public class AnimationManager : MonoBehaviour
         {
             var cardID = MatchManager.EnemySelectedCards[i];
             var direction = MatchManager.EnemySelectedCards[i + 1];
-            direction = direction == 0 ? 1 : 0;
-            //direction = direction == 0 ? 1 : 0; //because it's direction for enemy, not for use. 0 - means that enemy shot himself, but for us it's 1
+            direction = direction == 0 ? 1 : 0; //because it's direction for enemy, not for use. 0 - means that enemy shot himself, but for us it's 1
+            
             var cardData = ClientManager.allCardsInfo[cardID];
             var cardPos = i / 2;
             
@@ -227,7 +264,7 @@ public class AnimationManager : MonoBehaviour
 
             enemyCardsSequence.Append(enemyUICards[cardPos].animationSequence);
             var cowboy = direction == 0 ? MatchManager.PlayerEntityController : MatchManager.EnemyEntityController;
-           // enemyCardsSequence.AppendCallback(() => cowboy.HitByCard(cardData));
+            enemyCardsSequence.AppendCallback(() => cowboy.HitByCard(cardData));
             
         }
         enemyCardsSequence.AppendCallback((() => kostil = "kostil"));

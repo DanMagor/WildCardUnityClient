@@ -61,7 +61,8 @@ public class CowboyEntityController : MonoBehaviour
 
     public void HitByCard(CardInstanceSerializable card)
     {
-        
+
+        Debug.LogFormat("Card {0} hitted {1}", card.ID, this.userName);
         switch (card.Type)
         {
             case "Attack":
@@ -80,8 +81,8 @@ public class CowboyEntityController : MonoBehaviour
                 Debug.Log("Something Wrong. No type on card");
                 break;
         }
-        
-        
+
+        UpdateUI();
     }
     
 

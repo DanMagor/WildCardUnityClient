@@ -23,16 +23,25 @@ public class ClientMatchManager : MonoBehaviour
     public List<int> PlayerNotSelectedCards;
     [NonSerialized]
     public List<int> EnemySelectedCards;
-  
-    
 
-    
+
+    [NonSerialized]
+    public int PlayerHP;
+    [NonSerialized]
+    public int PlayerArmor;
+
+    [NonSerialized]
+    public int EnemyHP;
+    [NonSerialized]
+    public int EnemyArmor;
+
+
 
 
 
     #endregion
 
-   
+
 
     public CardInstanceSerializable[] Cards;
 
@@ -59,10 +68,7 @@ public class ClientMatchManager : MonoBehaviour
 
     }
 
-    private void Start()
-    {
-        
-    }
+   
 
     public void ShowResult(ByteBuffer buffer)
     {
@@ -104,8 +110,8 @@ public class ClientMatchManager : MonoBehaviour
         
 
 
-        var PlayerHP = buffer.ReadInteger();
-        var PlayerArmor = buffer.ReadInteger();
+        PlayerHP = buffer.ReadInteger();
+        PlayerArmor = buffer.ReadInteger();
 
         
 
@@ -116,8 +122,8 @@ public class ClientMatchManager : MonoBehaviour
             EnemySelectedCards.Add(buffer.ReadInteger()); //Id then Direction
         }
 
-        var EnemyHP = buffer.ReadInteger();
-        var EnemyArmor = buffer.ReadInteger();
+        EnemyHP = buffer.ReadInteger();
+        EnemyArmor = buffer.ReadInteger();
 
 
 
@@ -125,14 +131,7 @@ public class ClientMatchManager : MonoBehaviour
         AnimationManager.ShowResult();
 
 
-        //To ensure that UI Displays correct values
-        PlayerEntityController.HP = PlayerHP;
-        PlayerEntityController.Armor = PlayerArmor;
-        PlayerEntityController.UpdateUI();
-
-        EnemyEntityController.HP = EnemyHP;
-        EnemyEntityController.Armor = EnemyArmor;
-        EnemyEntityController.UpdateUI();
+        
 
 
 
