@@ -111,7 +111,7 @@ public class ClientManager : MonoBehaviour
 
     private void MatchSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("Scene is loaded");
+        
         currentMatchManager = FindObjectOfType<ClientMatchManager>();
         currentMatchManager.matchID = matchInfo.matchID;
         currentMatchManager.PlayerEntityController.userName = matchInfo.playerUsername;

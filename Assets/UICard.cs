@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class UICard : MonoBehaviour, IPointerClickHandler
 {
-    public static float movingTime = 0.3f;
+    public static float movingTime = 3f;//0.3f
     public static float transformationTime = 0.5f;
     public static float hidingShowingTime = 0.1f;
 

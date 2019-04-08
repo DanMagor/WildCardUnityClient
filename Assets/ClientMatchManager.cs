@@ -121,19 +121,18 @@ public class ClientMatchManager : MonoBehaviour
 
 
 
-       
-
+   
         AnimationManager.ShowResult();
 
 
-        //To ensure that UI Displays coreect values
-        //PlayerEntityController.HP = PlayerHP;
-        //PlayerEntityController.Armor = PlayerArmor;
-        //PlayerEntityController.UpdateUI();
+        //To ensure that UI Displays correct values
+        PlayerEntityController.HP = PlayerHP;
+        PlayerEntityController.Armor = PlayerArmor;
+        PlayerEntityController.UpdateUI();
 
-        //EnemyEntityController.HP = EnemyHP;
-        //EnemyEntityController.Armor = EnemyArmor;
-        //EnemyEntityController.UpdateUI();
+        EnemyEntityController.HP = EnemyHP;
+        EnemyEntityController.Armor = EnemyArmor;
+        EnemyEntityController.UpdateUI();
 
 
 

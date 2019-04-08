@@ -1212,6 +1212,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClientMatchManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1111306848, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1760400770, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4276705457701542, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

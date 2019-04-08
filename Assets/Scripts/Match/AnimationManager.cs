@@ -154,9 +154,6 @@ public class AnimationManager : MonoBehaviour
     {
         var kostil = "kostil";
        
-
-
-
         noComboCardsSequence = DOTween.Sequence();
         foreach (var cardPos in MatchManager.PlayerSoloCards)
         {
@@ -168,7 +165,7 @@ public class AnimationManager : MonoBehaviour
             noComboCardsSequence.Append(UICards[cardPos].animationSequence);
 
             var cowboy = card.direction == 0 ? MatchManager.PlayerEntityController : MatchManager.EnemyEntityController;
-            noComboCardsSequence.AppendCallback(() => cowboy.HitByCard(card));
+           // noComboCardsSequence.AppendCallback(() => cowboy.HitByCard(card));
         }
         noComboCardsSequence.AppendCallback((() => kostil = "kostil"));
         wholeSequence.Append(noComboCardsSequence);
@@ -188,7 +185,7 @@ public class AnimationManager : MonoBehaviour
             for (var j = 2; j < combination.Count; j++)
             {
                 var cardPos = combination[j];
-                Debug.LogFormat("Card {0} in Combo", cardPos);
+               
                 UICards[cardPos].comboCardSprite = comboSprite;
                 UICards[cardPos].effectSprite = effectSprite;
                 UICards[cardPos].PlayAnimation(CardAnimationsStates.Combo);
@@ -199,7 +196,7 @@ public class AnimationManager : MonoBehaviour
             comboCardsSequences.Append(tempSequence);
             var cowboy = direction == 0 ? MatchManager.PlayerEntityController : MatchManager.EnemyEntityController;
             var card = ClientManager.allCardsInfo[combination[0]]; //combination 0 - Result Combo Card ID
-            comboCardsSequences.AppendCallback(() => cowboy.HitByCard(card));
+           // comboCardsSequences.AppendCallback(() => cowboy.HitByCard(card));
         }
         comboCardsSequences.AppendCallback((() => kostil = "kostil"));
         wholeSequence.Append(comboCardsSequences);
@@ -218,7 +215,7 @@ public class AnimationManager : MonoBehaviour
             //direction = direction == 0 ? 1 : 0; //because it's direction for enemy, not for use. 0 - means that enemy shot himself, but for us it's 1
             var cardData = ClientManager.allCardsInfo[cardID];
             var cardPos = i / 2;
-            Debug.Log("Card Damage:" + cardData.Value.ToString());
+            
             //Enemy Card is placed on 5-th position of the array
             enemyUICards[cardPos].cardSprite = ClientManager.allCardsSprites[cardID];
             enemyUICards[cardPos].directionImage.sprite = ClientManager.directionSprites[direction];
@@ -230,7 +227,8 @@ public class AnimationManager : MonoBehaviour
 
             enemyCardsSequence.Append(enemyUICards[cardPos].animationSequence);
             var cowboy = direction == 0 ? MatchManager.PlayerEntityController : MatchManager.EnemyEntityController;
-            enemyCardsSequence.AppendCallback(() => cowboy.HitByCard(cardData));
+           // enemyCardsSequence.AppendCallback(() => cowboy.HitByCard(cardData));
+            
         }
         enemyCardsSequence.AppendCallback((() => kostil = "kostil"));
         wholeSequence.Append(enemyCardsSequence);
