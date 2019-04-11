@@ -158,7 +158,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &157535337
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -196,7 +196,7 @@ SpriteRenderer:
   m_SortingLayerID: 603489419
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a2c161a34c99a2f4c96216105600d3cc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2a598a73bcad4304589bc0cb4684d947, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -394,6 +394,12 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5232891317843378186, guid: ff2e9590d688afc46bae08ee36866074,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: e341a6ffd38ba2848b3ced73a28c70c6,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff2e9590d688afc46bae08ee36866074, type: 3}
 --- !u!1 &281696658 stripped
@@ -1416,6 +1422,16 @@ PrefabInstance:
       propertyPath: winnerText
       value: 
       objectReference: {fileID: 1437425260}
+    - target: {fileID: 1182334598, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 31a3548b7fbbc034c83607d12d6b2dd6,
+        type: 3}
+    - target: {fileID: 1441880993, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 31a3548b7fbbc034c83607d12d6b2dd6,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
 --- !u!1001 &5980197988878615814

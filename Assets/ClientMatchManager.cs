@@ -61,14 +61,14 @@ public class ClientMatchManager : MonoBehaviour
         Waiting
     }
 
-    private void Awake()
+   
+
+    private void Start()
     {
         AnimationManager = GetComponent<AnimationManager>();
         matchState = MatchStates.Waiting;
-
     }
 
-   
 
     public void ShowResult(ByteBuffer buffer)
     {
@@ -205,6 +205,10 @@ public class ClientMatchManager : MonoBehaviour
         ClientTCP.PACKAGE_SendRestartMatch(matchID);
     }
 
+    public void ConfirmToggleCard(int cardPos)
+    {
+        AnimationManager.ToggleCard(cardPos);
+    }
 
 
 

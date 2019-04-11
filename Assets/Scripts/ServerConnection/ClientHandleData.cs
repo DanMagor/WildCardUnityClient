@@ -126,7 +126,7 @@ public class ClientHandleData
 
     private static void HandleLoadMatch(byte[] data)
     {
-
+        Debug.Log("Load Match");
         clientManager.LoadMatch(data);
 
         //ByteBuffer buffer = new ByteBuffer();
@@ -184,8 +184,10 @@ public class ClientHandleData
 
     private static void Handle_Match_ConfirmToggleCard(byte[] data)
     {
-        Debug.Log("Confirm Toggle");
-        //TODO: Add logic Later
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteBytes(data);
+        buffer.ReadInteger(); //PackageID
+        clientMatchManager.ConfirmToggleCard(buffer.ReadInteger());//Read cardPos
     }
 
 

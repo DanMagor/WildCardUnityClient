@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using System;
 using Unity.Collections;
 using UnityEditor;
 using UnityEngine;
@@ -48,6 +49,8 @@ public class UICard : MonoBehaviour, IPointerClickHandler
     public Sprite cardSprite;
     public Sprite comboCardSprite;
 
+    [NonSerialized]
+    public bool selected = false;
 
 
     public int direction;
@@ -333,6 +336,19 @@ public class UICard : MonoBehaviour, IPointerClickHandler
         
     }
 
+    public void ToggleCard()
+    {
+        selected = !selected;
+        if (selected)
+        {
+            rTransform.anchoredPosition += new Vector2(0, 30);
+        }
+        else
+        {
+            rTransform.anchoredPosition -= new Vector2(0, 30);
+        }
+        
+    }
 
 
 

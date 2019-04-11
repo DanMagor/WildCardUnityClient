@@ -53,6 +53,8 @@ public class AnimationManager : MonoBehaviour
         {
             var uiCard = UICards[i];
             var card = MatchManager.Cards[i];
+            uiCard.selected = false; //set default value for selection
+
             uiCard.cardImage.sprite = ClientManager.allCardsSprites[card.ID];
             uiCard.directionImage.sprite = ClientManager.directionSprites[card.direction];
             uiCard.direction = card.direction;
@@ -67,7 +69,7 @@ public class AnimationManager : MonoBehaviour
 
     public void ToggleCard(int position)
     {
-        throw new NotImplementedException();
+        UICards[position].ToggleCard();
     }
 
     public void MakeShoot()
