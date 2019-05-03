@@ -91,10 +91,13 @@ public class CowboyEntityController : MonoBehaviour
     {
         if (Armor <= 0)
         {
-            HP -= value;
+            HP = Mathf.Max(HP-value, 0);
             DamageParticles.textMesh.text = value.ToString();
             DamageParticles.enabled = true;
             AnimatorController.Play("GetDamage");
+            if (HP<=0){
+                AnimatorController.Play("Die");
+            }
 
         }
         else
