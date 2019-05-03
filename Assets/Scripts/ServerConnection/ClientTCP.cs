@@ -89,18 +89,12 @@ public class ClientTCP
     public static void PACKAGE_SetReady(int matchID)
     {
         ByteBuffer buffer = new ByteBuffer();
-        buffer.WriteInteger((int)ClientPackages.CReadyForMatch);
+        buffer.WriteInteger((int)ClientPackages.CSetReady);
         buffer.WriteInteger(matchID);
         SendData(buffer.ToArray());
     }
 
-    public static void PACKAGE_SetReadyForRound(int matchID)
-    {
-        ByteBuffer buffer = new ByteBuffer();
-        buffer.WriteInteger((int)ClientPackages.CReadyForRound);
-        buffer.WriteInteger(matchID);
-        SendData(buffer.ToArray());
-    }
+  
 
     public static void PACKAGE_Match_ToggleCard(int matchID, int selectedCardPosition)
     {

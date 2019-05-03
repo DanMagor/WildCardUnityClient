@@ -25,7 +25,7 @@ public class ClientHandleData
             {(int) ServerPackages.SSendMatchCards, Handle_Match_SendedCards},
             {(int) ServerPackages.SStartRound, Handle_Match_StartRound},
             {(int) ServerPackages.SShowCards, Handle_Match_ShowCards},
-            {(int) ServerPackages.SSendAllCards, Handle_Client_AllCardsData},
+            {(int) ServerPackages.SSendAllCardsData, Handle_Client_AllCardsData},
             {(int) ServerPackages.SShowResult, HandleShowResult},
             {(int) ServerPackages.SFinishGame, HandleFinishGame},
             {(int) ServerPackages.SConfirmToggleCard, Handle_Match_ConfirmToggleCard}
