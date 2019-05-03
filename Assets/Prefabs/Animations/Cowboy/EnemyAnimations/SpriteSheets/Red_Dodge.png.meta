@@ -11,7 +11,7 @@ TextureImporter:
   serializedVersion: 9
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -36,7 +36,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -65,10 +65,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -76,10 +76,10 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -87,10 +87,10 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -103,18 +103,18 @@ TextureImporter:
       name: Red_Dodge_0
       rect:
         serializedVersion: 2
-        x: 109
+        x: 0
         y: 0
-        width: 152
+        width: 420
         height: 310
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7767d1a5e68f0a94394450aac30d28d4
+      spriteID: 7672136af02c34443841e64ba0200c82
       vertices: []
       indices: 
       edges: []
@@ -123,18 +123,18 @@ TextureImporter:
       name: Red_Dodge_1
       rect:
         serializedVersion: 2
-        x: 529
+        x: 420
         y: 0
-        width: 152
+        width: 420
         height: 310
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8c073def856a6ed42a757e0583fb3f61
+      spriteID: fc096c4bad2285a41a3f988931a21bef
       vertices: []
       indices: 
       edges: []
@@ -143,18 +143,18 @@ TextureImporter:
       name: Red_Dodge_2
       rect:
         serializedVersion: 2
-        x: 939
+        x: 840
         y: 0
-        width: 142
+        width: 420
         height: 310
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 92a4eed9d067be14589bc9afa04665c4
+      spriteID: 529db3714b80e18468f1fea53ccc843b
       vertices: []
       indices: 
       edges: []
@@ -163,18 +163,18 @@ TextureImporter:
       name: Red_Dodge_3
       rect:
         serializedVersion: 2
-        x: 1359
+        x: 1260
         y: 0
-        width: 132
+        width: 420
         height: 310
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ef9f42415c9a214ea4d81ea23739aee
+      spriteID: 530aa7d2cd9634b429d968e0f312b5f5
       vertices: []
       indices: 
       edges: []
@@ -183,18 +183,18 @@ TextureImporter:
       name: Red_Dodge_4
       rect:
         serializedVersion: 2
-        x: 1789
+        x: 1680
         y: 0
-        width: 122
+        width: 420
         height: 310
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 04c3f6c144efbbb4a8362da8daf242b5
+      spriteID: 8ebb90174e9e376489a4127771ca4329
       vertices: []
       indices: 
       edges: []

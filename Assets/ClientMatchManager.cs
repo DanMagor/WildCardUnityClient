@@ -36,7 +36,12 @@ public class ClientMatchManager : MonoBehaviour
     public int EnemyArmor;
 
 
-
+    [NonSerialized]
+    public int nAttackCardsInDeck;
+    [NonSerialized]
+    public int nHealCardsInDeck;
+    [NonSerialized]
+    public int nArmorCardsInDeck;
 
 
     #endregion
@@ -119,15 +124,17 @@ public class ClientMatchManager : MonoBehaviour
         length = buffer.ReadInteger();
         for (int i = 0; i < length; i++)
         {
-            EnemySelectedCards.Add(buffer.ReadInteger()); //Id then Direction
+            EnemySelectedCards.Add(buffer.ReadInteger()); //Id then direction
         }
 
         EnemyHP = buffer.ReadInteger();
         EnemyArmor = buffer.ReadInteger();
 
+        nAttackCardsInDeck = buffer.ReadInteger();
+        nHealCardsInDeck = buffer.ReadInteger();
+        nArmorCardsInDeck = buffer.ReadInteger();
 
 
-   
         AnimationManager.ShowResult();
 
 
@@ -158,9 +165,13 @@ public class ClientMatchManager : MonoBehaviour
 
         for (var i = 0; i < numberOfCards; i++)
         {
-            Cards[i] = ClientManager.allCardsInfo[data.ReadInteger()];
-            Cards[i].direction = data.ReadInteger();
+            Cards[i] = ClientManager.allCardsInfo[data.ReadInteger()].Clone();
+            Cards[i].Direction = data.ReadInteger();
         }
+
+        nAttackCardsInDeck = data.ReadInteger();
+        nHealCardsInDeck = data.ReadInteger();
+        nArmorCardsInDeck = data.ReadInteger();
     }
 
 
@@ -171,7 +182,7 @@ public class ClientMatchManager : MonoBehaviour
     }
     private void StartTimer(float timerTime)
     {
-        Debug.LogFormat("Timer {0} sec", timerTime);
+        AnimationManager.StartTimer(timerTime);
     }
 
     public void ShowCards(ByteBuffer data)

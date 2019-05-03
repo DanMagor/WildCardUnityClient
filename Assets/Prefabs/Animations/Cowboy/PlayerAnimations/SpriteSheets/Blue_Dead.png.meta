@@ -14,7 +14,7 @@ TextureImporter:
   serializedVersion: 9
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -39,7 +39,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -68,10 +68,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -79,10 +79,10 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -90,10 +90,10 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -106,9 +106,9 @@ TextureImporter:
       name: Blue_Dead_0
       rect:
         serializedVersion: 2
-        x: 129
+        x: 0
         y: 0
-        width: 152
+        width: 420
         height: 310
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -117,7 +117,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a089119831a5e042ab751068c0e3a4e
+      spriteID: b7c810ace2964f94abf62043537b0da2
       vertices: []
       indices: 
       edges: []
@@ -126,10 +126,10 @@ TextureImporter:
       name: Blue_Dead_1
       rect:
         serializedVersion: 2
-        x: 529
+        x: 420
         y: 0
-        width: 172
-        height: 290
+        width: 420
+        height: 310
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,7 +137,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 48f4502d638b55042b67345058d7c711
+      spriteID: 91536eea1d9f7db4d98380b63eeae637
       vertices: []
       indices: 
       edges: []
@@ -146,10 +146,10 @@ TextureImporter:
       name: Blue_Dead_2
       rect:
         serializedVersion: 2
-        x: 709
-        y: 219
-        width: 61
-        height: 91
+        x: 840
+        y: 0
+        width: 420
+        height: 310
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -157,7 +157,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1b88ad40c33f88a4d9598630d3ca9562
+      spriteID: 3496c46f29c6e88428b21103d37466e7
       vertices: []
       indices: 
       edges: []
@@ -166,10 +166,10 @@ TextureImporter:
       name: Blue_Dead_3
       rect:
         serializedVersion: 2
-        x: 939
+        x: 1260
         y: 0
-        width: 192
-        height: 280
+        width: 420
+        height: 310
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -177,7 +177,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7f39dc927267e7a41a5f6e07a10dbf2c
+      spriteID: e3dc9b814b7b80c4f967506ea5b032f2
       vertices: []
       indices: 
       edges: []
@@ -186,10 +186,10 @@ TextureImporter:
       name: Blue_Dead_4
       rect:
         serializedVersion: 2
-        x: 1169
-        y: 199
-        width: 61
-        height: 91
+        x: 1680
+        y: 0
+        width: 420
+        height: 310
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -197,7 +197,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b3f5365c5e29c214488125acccbefda8
+      spriteID: e459b9bec8bb51d43a7666821c954ea9
       vertices: []
       indices: 
       edges: []
@@ -206,10 +206,10 @@ TextureImporter:
       name: Blue_Dead_5
       rect:
         serializedVersion: 2
-        x: 1360
+        x: 2100
         y: 0
-        width: 321
-        height: 221
+        width: 420
+        height: 310
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -217,47 +217,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a7d87293077fc114f8167bfe883757e2
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Blue_Dead_6
-      rect:
-        serializedVersion: 2
-        x: 1729
-        y: 9
-        width: 371
-        height: 172
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8f39c65f391d0bd43be508b34a3bd690
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Blue_Dead_7
-      rect:
-        serializedVersion: 2
-        x: 2159
-        y: 0
-        width: 361
-        height: 71
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b2b589f19b2d7a048a52ff8fdb65a42f
+      spriteID: 35b368bbf25da7446a2daa2a4923455d
       vertices: []
       indices: 
       edges: []

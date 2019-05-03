@@ -19,14 +19,22 @@ public class AnimationManager : MonoBehaviour
     public Sequence enemyCardsSequence;
     public Sequence wholeSequence;
 
-    public bool PlayTimerState;
-    public float TimeRemains;
-    public float TimerTime;
+    //public bool PlayTimerState;
+
+    public Timer timer;
 
     public UICard[] UICards;
     public UICard[] enemyUICards;
 
+
+    //Todo Change to logic with animation
+    public Text nAttackCardsCounter;
+    public Text nHealCardsCounter;
+    public Text nArmorCardsCounter;
+
     public Text winnerText;
+
+
 
 
 
@@ -38,13 +46,18 @@ public class AnimationManager : MonoBehaviour
         MatchManager = GetComponent<ClientMatchManager>();
     }
 
+   
     public void StartTimer(float time)
     {
-        throw new NotImplementedException();
+        timer.totalWaitingTime = time;       
+        timer.enabled = true;
     }
+
+
 
     public void ShowCards()
     {
+       
 
         ShowShotButton();
         //TODO: Rework architecture with CARDS, Change to ArrayList?
@@ -56,13 +69,20 @@ public class AnimationManager : MonoBehaviour
             uiCard.selected = false; //set default value for selection
 
             uiCard.cardImage.sprite = ClientManager.allCardsSprites[card.ID];
-            uiCard.directionImage.sprite = ClientManager.directionSprites[card.direction];
-            uiCard.direction = card.direction;
+
+            uiCard.direction = card.Direction;
+            uiCard.directionImage.sprite = ClientManager.directionSprites[card.Direction];
+          
             uiCard.cardValue.text = card.Value.ToString();
             uiCard.PlayShowCard();
             wholeSequence.Join(uiCard.animationSequence);
 
         }
+        nAttackCardsCounter.text = MatchManager.nAttackCardsInDeck.ToString();
+        nHealCardsCounter.text = MatchManager.nHealCardsInDeck.ToString();
+        nArmorCardsCounter.text = MatchManager.nArmorCardsInDeck.ToString();
+
+
         wholeSequence.Play();
         
     }
@@ -80,11 +100,13 @@ public class AnimationManager : MonoBehaviour
     public void ShowResult()
     {
 
+        wholeSequence = DOTween.Sequence();
+
         HideShotButton();
 
         HideCards();
 
-        wholeSequence = DOTween.Sequence();
+      
 
         if (MatchManager.amIShot)
         {
@@ -185,6 +207,13 @@ public class AnimationManager : MonoBehaviour
             notSelectedCardSequence.Join(UICards[cardPos].animationSequence);
         }
 
+        //Todo Change to Logic with Animation
+        nAttackCardsCounter.text = MatchManager.nAttackCardsInDeck.ToString();
+        nHealCardsCounter.text = MatchManager.nHealCardsInDeck.ToString();
+        nArmorCardsCounter.text = MatchManager.nArmorCardsInDeck.ToString();
+
+
+
         notSelectedCardSequence.AppendCallback((() => kostil = "kostil"));
         wholeSequence.Append(notSelectedCardSequence);
     }
@@ -203,7 +232,7 @@ public class AnimationManager : MonoBehaviour
             UICards[cardPos].PlayAnimation(CardAnimationsStates.NoCombo);
             noComboCardsSequence.Append(UICards[cardPos].animationSequence);
 
-            var cowboy = card.direction == 0 ? MatchManager.PlayerEntityController : MatchManager.EnemyEntityController;
+            var cowboy = card.Direction == 0 ? MatchManager.PlayerEntityController : MatchManager.EnemyEntityController;
             noComboCardsSequence.AppendCallback(() => cowboy.HitByCard(card));
         }
         noComboCardsSequence.AppendCallback((() => kostil = "kostil"));

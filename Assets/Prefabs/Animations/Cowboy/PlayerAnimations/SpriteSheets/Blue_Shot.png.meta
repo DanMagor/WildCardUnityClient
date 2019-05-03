@@ -13,7 +13,7 @@ TextureImporter:
   serializedVersion: 9
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -38,7 +38,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -67,10 +67,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -78,10 +78,10 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -89,10 +89,10 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -105,9 +105,9 @@ TextureImporter:
       name: Blue_Shot_0
       rect:
         serializedVersion: 2
-        x: 110
+        x: 0
         y: 0
-        width: 151
+        width: 420
         height: 310
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -116,7 +116,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 21ece510d2816284d8ee5050a13d56b8
+      spriteID: 399210ef16c418b4aa98b0a236d671cc
       vertices: []
       indices: 
       edges: []
@@ -125,9 +125,9 @@ TextureImporter:
       name: Blue_Shot_1
       rect:
         serializedVersion: 2
-        x: 529
+        x: 420
         y: 0
-        width: 151
+        width: 420
         height: 310
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -136,7 +136,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0f247b0e1a5acf241b32b8ea6f2c5784
+      spriteID: b2e3df1d8010f2048beb504dbb4eccc2
       vertices: []
       indices: 
       edges: []
@@ -145,9 +145,9 @@ TextureImporter:
       name: Blue_Shot_2
       rect:
         serializedVersion: 2
-        x: 929
+        x: 840
         y: 0
-        width: 172
+        width: 420
         height: 310
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -156,7 +156,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b8b3a762fe8f02148bfb157fa051573e
+      spriteID: 8a360694e2258a04fb1faba519928fcb
       vertices: []
       indices: 
       edges: []
@@ -165,9 +165,9 @@ TextureImporter:
       name: Blue_Shot_3
       rect:
         serializedVersion: 2
-        x: 1309
+        x: 1260
         y: 0
-        width: 212
+        width: 420
         height: 310
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -176,7 +176,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2c6efd1fc3c333c498ff198548691331
+      spriteID: 4eac6b77d9ba4584ea49b7ddf53f21ec
       vertices: []
       indices: 
       edges: []
@@ -185,10 +185,10 @@ TextureImporter:
       name: Blue_Shot_4
       rect:
         serializedVersion: 2
-        x: 1689
-        y: 149
-        width: 32
-        height: 32
+        x: 1680
+        y: 0
+        width: 420
+        height: 310
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -196,7 +196,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9a792923709c13e428b0fb0edd2a8dce
+      spriteID: bcb8cc938303172478c9a8f774396c1a
       vertices: []
       indices: 
       edges: []
@@ -205,9 +205,9 @@ TextureImporter:
       name: Blue_Shot_5
       rect:
         serializedVersion: 2
-        x: 1729
+        x: 2100
         y: 0
-        width: 221
+        width: 420
         height: 310
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -216,27 +216,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 34974faddb336f548a73d722f5d9a78d
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Blue_Shot_6
-      rect:
-        serializedVersion: 2
-        x: 2189
-        y: 0
-        width: 182
-        height: 310
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8573ef42528d0694aa3b57104e78a2af
+      spriteID: 9b4f86d36848e2542ac18815e1ba5c4c
       vertices: []
       indices: 
       edges: []

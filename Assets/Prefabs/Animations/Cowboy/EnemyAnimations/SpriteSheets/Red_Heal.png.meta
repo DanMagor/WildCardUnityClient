@@ -16,7 +16,7 @@ TextureImporter:
   serializedVersion: 9
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -41,7 +41,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -70,10 +70,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -81,10 +81,10 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -92,10 +92,10 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -108,18 +108,18 @@ TextureImporter:
       name: Red_Heal_0
       rect:
         serializedVersion: 2
-        x: 108
+        x: 0
         y: 0
-        width: 155
+        width: 420
         height: 310
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e641542b117086f46bf1d43dac1e4f55
+      spriteID: fff2d07f6aa042241bc4b8cf139be0c4
       vertices: []
       indices: 
       edges: []
@@ -128,18 +128,18 @@ TextureImporter:
       name: Red_Heal_1
       rect:
         serializedVersion: 2
-        x: 528
+        x: 420
         y: 0
-        width: 154
+        width: 420
         height: 310
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 689abb80b8981174bad6a7e87ab3a091
+      spriteID: 2490846d1c01b324e93aa706d5496e64
       vertices: []
       indices: 
       edges: []
@@ -148,18 +148,18 @@ TextureImporter:
       name: Red_Heal_2
       rect:
         serializedVersion: 2
-        x: 928
+        x: 840
         y: 0
-        width: 174
+        width: 420
         height: 310
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 61be604c0cd7fd843bd3ad9afcc8b5aa
+      spriteID: 073314d17e98da742aa9e8c34bcc76b4
       vertices: []
       indices: 
       edges: []
@@ -168,18 +168,18 @@ TextureImporter:
       name: Red_Heal_3
       rect:
         serializedVersion: 2
-        x: 1338
+        x: 1260
         y: 0
-        width: 185
+        width: 420
         height: 310
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a09041aa0feb03c4d900ee7c252bc826
+      spriteID: 1b54e851539ede540adc79cc545b4be8
       vertices: []
       indices: 
       edges: []
@@ -188,18 +188,18 @@ TextureImporter:
       name: Red_Heal_4
       rect:
         serializedVersion: 2
-        x: 1777
+        x: 1680
         y: 0
-        width: 166
+        width: 420
         height: 310
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cb162eb89f9f3b845a4aa84389ad8741
+      spriteID: a4efea03a566ad344a5eb97fa1f129ac
       vertices: []
       indices: 
       edges: []
@@ -208,18 +208,18 @@ TextureImporter:
       name: Red_Heal_5
       rect:
         serializedVersion: 2
-        x: 2197
+        x: 2106
         y: 0
-        width: 166
+        width: 420
         height: 310
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e4662fa44f7493340b813125a803fc5e
+      spriteID: 00c1d93f2d60089438d6fd7cce993299
       vertices: []
       indices: 
       edges: []
@@ -228,18 +228,18 @@ TextureImporter:
       name: Red_Heal_6
       rect:
         serializedVersion: 2
-        x: 2618
+        x: 2520
         y: 0
-        width: 164
+        width: 420
         height: 310
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f8acf4cd70ffb0a4cba73f0dde913538
+      spriteID: d49c27f65d5d07347b086d1a1d02327c
       vertices: []
       indices: 
       edges: []
@@ -248,18 +248,18 @@ TextureImporter:
       name: Red_Heal_7
       rect:
         serializedVersion: 2
-        x: 3028
+        x: 2940
         y: 0
-        width: 174
+        width: 420
         height: 310
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1361fbbbb98dc43408117838e3e2ea7b
+      spriteID: e8d7ce53d8865d74f8f8069410d81042
       vertices: []
       indices: 
       edges: []
@@ -268,18 +268,18 @@ TextureImporter:
       name: Red_Heal_8
       rect:
         serializedVersion: 2
-        x: 3457
+        x: 3360
         y: 0
-        width: 166
+        width: 420
         height: 310
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c5c07688145d6e64db9c93b15f5152c6
+      spriteID: 27a28b29b9b90d249bd83b72f4352642
       vertices: []
       indices: 
       edges: []
@@ -288,18 +288,18 @@ TextureImporter:
       name: Red_Heal_9
       rect:
         serializedVersion: 2
-        x: 3877
+        x: 3780
         y: 0
-        width: 166
+        width: 420
         height: 310
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2baa293d4f117a64993bcc18e7ad23f2
+      spriteID: 03e0601de22fdc2488aaf1f83d18d132
       vertices: []
       indices: 
       edges: []
