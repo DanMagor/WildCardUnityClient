@@ -6,24 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class ClientManager : MonoBehaviour
 {
-    public static Dictionary<int, CardInstanceSerializable> allCardsInfo = new Dictionary<int, CardInstanceSerializable>();
 
-    public static Dictionary<int, Sprite> allCardsSprites = new Dictionary<int, Sprite>();
-    public static Dictionary<int, Sprite> allEffectsSprites = new Dictionary<int, Sprite>();
-    public static Dictionary<int, Sprite> directionSprites;
-
-
-
-    private ClientMatchManager currentMatchManager;
-
-
-    public string playerUsername;
-
+    //Connection Info
     [SerializeField] private string ipAddress = "127.0.0.1";
     [SerializeField] private int port = 5555;
 
-
-
+    private MatchManager currentMatchManager;
+    //For temporary saving matchInfo between scene switching
     private clientMatchManagerInfo matchInfo;
     private struct clientMatchManagerInfo
     {
@@ -32,23 +21,19 @@ public class ClientManager : MonoBehaviour
         public string enemyUsername;
     }
 
-    private void Awake()
+    public static Dictionary<int, CardEntity> AllCardsInfo = new Dictionary<int, CardEntity>();
+    public static Dictionary<int, Sprite> AllCardsSprites = new Dictionary<int, Sprite>();
+    public static Dictionary<int, Sprite> AllItemsSprites = new Dictionary<int, Sprite>();
+    public static Dictionary<int, Sprite> DirectionSprites; //Will be loaded in Initialization
+
+    public string PlayerUsername; //we need this info in the whole game //TODO: Add other info for player. Currency, e.t.c
+
+    public void Awake()
     {
-        // This two methods for working with TCP in Unity Thread
-        DontDestroyOnLoad(this);
-        UnityThread.initUnityThread();
-
-        //Connection
-        ClientHandleData.InitializePacketListener();
-        ClientTCP.InitializeClientSocket(ipAddress, port);
-
-        directionSprites = new Dictionary<int, Sprite>()
-        {
-
-        {0, Resources.Load<Sprite>("Effects/LeftArrow") },
-        {1, Resources.Load<Sprite>("Effects/RightArrow") }
-
-        };
+        InitializeClientManager();
+    }
+    public void Update()
+    {
     }
 
     public void InitializeClientManager()
@@ -61,7 +46,7 @@ public class ClientManager : MonoBehaviour
         ClientHandleData.InitializePacketListener();
         ClientTCP.InitializeClientSocket(ipAddress, port);
 
-        directionSprites = new Dictionary<int, Sprite>()
+        DirectionSprites = new Dictionary<int, Sprite>()
         {
 
             {0, Resources.Load<Sprite>("Effects/LeftArrow") },
@@ -70,62 +55,68 @@ public class ClientManager : MonoBehaviour
         };
     }
 
-
-    public void Update()
+    #region Scene Loading
+    public void LoadMenu(byte[] data)
     {
-        if (Input.GetKeyUp(KeyCode.R)) ClientTCP.PACKAGE_SendRestartMatch(currentMatchManager.matchID);
-    }
+        var buffer = new ByteBuffer();
+        buffer.WriteBytes(data);
+        buffer.ReadInteger(); // Read Package ID
 
-    public void LoadMenu()
-    {
+
+        var playerUsername = buffer.ReadString();
+        PlayerUsername = playerUsername;
+
         SceneManager.LoadScene("Main Menu");
     }
-
     public void LoadMatch(byte[] data)
     {
-      
-        //if (currentMatchManager != null)
+
+        //if (currentMatchManager != null) //For checking if player is in match
         //{
         //    Debug.LogError("MatchManager is not null!");
         //    throw new Exception("MatchManager is not null!");
 
         //}
-        
+
         var buffer = new ByteBuffer();
-        currentMatchManager = GameObject.FindObjectOfType<ClientMatchManager>();
-
-
         buffer.WriteBytes(data);
         buffer.ReadInteger(); // Read Package ID
 
 
+        //Save info for scene loading
         matchInfo.matchID = buffer.ReadInteger();
-
         matchInfo.playerUsername = buffer.ReadString();
         matchInfo.enemyUsername = buffer.ReadString();
 
-
+        //Call method after scene loading for initialization 
         SceneManager.sceneLoaded += MatchSceneLoaded;
+
         SceneManager.LoadScene("Match");
     }
-
     private void MatchSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+
+        currentMatchManager = FindObjectOfType<MatchManager>();
+
+        //Assign Match Info
+        currentMatchManager.MatchId = matchInfo.matchID;
+        currentMatchManager.PlayerEntityController.Username = matchInfo.playerUsername;
+        currentMatchManager.EnemyEntityController.Username = matchInfo.enemyUsername;
+
+        //Notify Data Handler about MatchManager for direct call
+        ClientHandleData.matchManager = currentMatchManager;
         
-        currentMatchManager = FindObjectOfType<ClientMatchManager>();
-        currentMatchManager.matchID = matchInfo.matchID;
-        currentMatchManager.PlayerEntityController.userName = matchInfo.playerUsername;
-        currentMatchManager.EnemyEntityController.userName = matchInfo.enemyUsername;
-        ClientHandleData.clientMatchManager = currentMatchManager;
+        //Notify server that client is ready
         currentMatchManager.SendSetReady();
 
+        //Remove callback from queue
         SceneManager.sceneLoaded -= MatchSceneLoaded;
 
     }
+    #endregion
 
-   
 
-    //TODO: Think about saving in JSON. Rewrite? DO we need to save them in files?
+    #region Data Saving/Loading
     public void SaveAllCardsData(byte[] data)
     {
         var buffer = new ByteBuffer();
@@ -137,11 +128,10 @@ public class ClientManager : MonoBehaviour
 
         for (var i = 0; i < numberOfCards; i++)
         {
-            var cardInstance = new CardInstanceSerializable();
-
+            var cardInstance = new CardEntity();
 
             //TODO: Delete Later unneeded fields for client
-            cardInstance.ID = buffer.ReadInteger();
+            cardInstance.Id = buffer.ReadInteger();
             cardInstance.Name = buffer.ReadString();
             cardInstance.Type = buffer.ReadString();
             cardInstance.IsComboCard = buffer.ReadBool();
@@ -154,30 +144,13 @@ public class ClientManager : MonoBehaviour
             cardInstance.Value = buffer.ReadInteger();
             cardInstance.Animation = buffer.ReadString();
 
-            allCardsInfo[cardInstance.ID] = cardInstance;
+            AllCardsInfo[cardInstance.Id] = cardInstance;
 
-            allCardsSprites[cardInstance.ID] = Resources.Load<Sprite>("Cards/" + cardInstance.CardImage);
-            allEffectsSprites[cardInstance.ID] = Resources.Load<Sprite>("Effects/" + cardInstance.ItemImage);
-
-            ///////////////////////////// TO DO : CHECK DO I NEED IT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-            ////Saving to JSON. DO we need it?
-            //string json = JsonUtility.ToJson(card);
-
-            //string path = Application.dataPath + @"\Resources\Cards";
-
-            //if (!System.IO.Directory.Exists(path))
-            //{
-            //    System.IO.Directory.CreateDirectory(path);
-            //}
-            //System.IO.File.WriteAllText(path + @"\Card" + card.id, json);
-            ///////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+            AllCardsSprites[cardInstance.Id] = Resources.Load<Sprite>("Cards/" + cardInstance.CardImage);
+            AllItemsSprites[cardInstance.Id] = Resources.Load<Sprite>("Effects/" + cardInstance.ItemImage);
         }
     }
-
-
-
-
-
+    #endregion
 
     public static void RequestSearch()
     {
@@ -185,22 +158,4 @@ public class ClientManager : MonoBehaviour
     }
 
 
-    //private void InitializeLabels(Scene scene, LoadSceneMode mode)
-    //{
-    //    if (scene.name == "Match")
-    //    {
-    //        //Find Player MatchManager on the scene for ClientHandleData
-    //        //Have to search because we load new Scene
-    //        currentMatchManager = GameObject.Find("ClientMatchManager").GetComponent<ClientMatchManager>();
-    //        currentMatchManager.matchID = currentMatchID;
-
-    //        //Have to assign it here, cause we can find it only when level is alredy loaded
-    //        ClientHandleData.clientMatchManager = currentMatchManager;
-    //        ClientTCP.clientMatchManager = currentMatchManager;
-
-
-    //        //Initialize Labels:
-    //        currentMatchManager.InitializeLabels(playerUsername, enemyUsername);
-    //    }
-    //}
 }

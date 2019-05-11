@@ -14,7 +14,7 @@ public class ClientHandleData
     private static int pLength;
 
     public static ClientManager clientManager = GameObject.Find("ClientManager").GetComponent<ClientManager>();
-    public static ClientMatchManager clientMatchManager;
+    public static MatchManager matchManager;
 
     public static void InitializePacketListener()
     {
@@ -26,10 +26,10 @@ public class ClientHandleData
             {(int) ServerPackages.SStartRound, Handle_Match_StartRound},
             {(int) ServerPackages.SShowCards, Handle_Match_ShowCards},
             {(int) ServerPackages.SSendAllCardsData, Handle_Client_AllCardsData},
-            {(int) ServerPackages.SShowResult, HandleShowResult},
-            {(int) ServerPackages.SFinishGame, HandleFinishGame},
+            {(int) ServerPackages.SShowResult, Handle_Match_ShowResult},
+            {(int) ServerPackages.SFinishGame, Handle_Match_FinishGame},
             {(int) ServerPackages.SConfirmToggleCard, Handle_Match_ConfirmToggleCard}
-            
+
         };
     }
 
@@ -97,7 +97,6 @@ public class ClientHandleData
             }
         }
     }
-
     private static void HandleDataPackages(byte[] data)
     {
         ByteBuffer buffer = new ByteBuffer();
@@ -111,93 +110,64 @@ public class ClientHandleData
         }
     }
 
+    #region SceneLoading Handling
     private static void HandleLoadMenu(byte[] data)
     {
-
-        ByteBuffer buffer = new ByteBuffer();
-        buffer.WriteBytes(data);
-        int packageID = buffer.ReadInteger();
-        string playerUsername = buffer.ReadString();
-
-        //Need to save it in field of this class because we we can't pass it directly when scene is loading
-        clientManager.playerUsername = playerUsername;
-        clientManager.LoadMenu();
+        clientManager.LoadMenu(data);
     }
-
     private static void HandleLoadMatch(byte[] data)
     {
-        Debug.Log("Load Match");
         clientManager.LoadMatch(data);
-
-        //ByteBuffer buffer = new ByteBuffer();
-
-        //buffer.WriteBytes(data);
-        //int packageID = buffer.ReadInteger();
-        //int matchID = buffer.ReadInteger();
-
-        ////Need to save it in field of this class because we we can't pass it directly when scene is loading
-        //string enemyUsername = buffer.ReadString();
-        //clientManager.enemyUsername = enemyUsername;
-        //clientManager.LoadMatch(matchID);
     }
+    #endregion
 
-    private static void Handle_Match_SendedCards(byte[] data)
-    {
-
-        var buffer = new ByteBuffer();
-        buffer.WriteBytes(data);
-        clientMatchManager.HandleSendedCards(buffer);
-
-    }
-
+    #region Data Saving/Loading Handling
     private static void Handle_Client_AllCardsData(byte[] data)
     {
-
-
         clientManager.SaveAllCardsData(data);
-
     }
+    #endregion
 
+    #region Match Packages Hadnling
     private static void Handle_Match_StartRound(byte[] data)
     {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteBytes(data);
-
-        clientMatchManager.StartRound(buffer);
-
+        matchManager.StartRound(buffer);
     }
-
+    private static void Handle_Match_SendedCards(byte[] data)
+    {
+        var buffer = new ByteBuffer();
+        buffer.WriteBytes(data);
+        matchManager.HandleSendedCards(buffer);
+    }
     private static void Handle_Match_ShowCards(byte[] data)
     {
         var buffer = new ByteBuffer();
         buffer.WriteBytes(data);
-        clientMatchManager.ShowCards(buffer);
+        matchManager.ShowCards(buffer);
     }
-
-    private static void HandleShowResult(byte[] data)
+    private static void Handle_Match_ShowResult(byte[] data)
     {
-       var buffer = new ByteBuffer();
-       buffer.WriteBytes(data);
-       clientMatchManager.ShowResult(buffer);
+        var buffer = new ByteBuffer();
+        buffer.WriteBytes(data);
+        matchManager.ShowResult(buffer);
     }
-
-
     private static void Handle_Match_ConfirmToggleCard(byte[] data)
     {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteBytes(data);
         buffer.ReadInteger(); //PackageID
-        clientMatchManager.ConfirmToggleCard(buffer.ReadInteger());//Read cardPos
+        matchManager.ConfirmToggleCard(buffer.ReadInteger());//Read cardPos
     }
-
-
-    private static void HandleFinishGame(byte[] data)
+    private static void Handle_Match_FinishGame(byte[] data)
     {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteBytes(data);
         buffer.ReadInteger(); //Read Package ID
-        clientMatchManager.FinishGame(buffer);
+        matchManager.FinishGame(buffer);
     }
+    #endregion
 
 }
 

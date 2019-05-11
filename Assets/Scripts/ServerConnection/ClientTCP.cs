@@ -8,7 +8,7 @@ public class ClientTCP
     private static NetworkStream myStream;
     private static byte[] receiveBuffer;
     public static ClientManager clientManager = GameObject.Find("ClientManager").GetComponent<ClientManager>();
-    public static ClientMatchManager clientMatchManager;
+  
 
     public static void InitializeClientSocket(string address, int port)
     {
@@ -32,7 +32,6 @@ public class ClientTCP
             myStream.BeginRead(receiveBuffer, 0, 4096 * 2, ReceiveCallback, null);
         }
     }
-
     private static void ReceiveCallback(IAsyncResult result)
     {
         try
@@ -58,8 +57,7 @@ public class ClientTCP
             throw;
         }
     }
-
-    public static void SendData(byte[] data)
+    private static void SendData(byte[] data)
     {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteInteger((data.GetUpperBound(0) - data.GetLowerBound(0)) + 1);
@@ -76,26 +74,23 @@ public class ClientTCP
         buffer.WriteString(password);
         SendData(buffer.ToArray());
     }
-
     public static void PACKAGE_SearchOpponent()
     {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteInteger((int)ClientPackages.CSearchOpponent);
-        buffer.WriteString(clientManager.playerUsername);
+        buffer.WriteString(clientManager.PlayerUsername);
 
         SendData(buffer.ToArray());
     }
 
-    public static void PACKAGE_SetReady(int matchID)
+    #region Match Packages
+    public static void PACKAGE_Match_SetReady(int matchID)
     {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteInteger((int)ClientPackages.CSetReady);
         buffer.WriteInteger(matchID);
         SendData(buffer.ToArray());
     }
-
-  
-
     public static void PACKAGE_Match_ToggleCard(int matchID, int selectedCardPosition)
     {
         ByteBuffer buffer = new ByteBuffer();
@@ -104,8 +99,15 @@ public class ClientTCP
         buffer.WriteInteger(selectedCardPosition);
         SendData(buffer.ToArray());
     }
+    public static void PACKAGE_Match_Shot(int matchID)
+    {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteInteger((int)ClientPackages.CShot);
+        buffer.WriteInteger(matchID);
 
-    public static void PACKAGE_SendRestartMatch(int matchID)
+        SendData(buffer.ToArray());
+    }
+    public static void PACKAGE_Match_RequestRestartMatch(int matchID)
     {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteInteger((int)ClientPackages.CRestartMatch);
@@ -113,14 +115,8 @@ public class ClientTCP
 
         SendData(buffer.ToArray());
     }
+    #endregion
 
-    public static void PACKAGE_Match_Shot(int matchID)
-    {
-        ByteBuffer buffer = new ByteBuffer();
-        buffer.WriteInteger((int)ClientPackages.CShot);
-        buffer.WriteInteger(matchID);
-        
-        SendData(buffer.ToArray());
-    }
+
 }
 
