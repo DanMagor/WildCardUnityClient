@@ -11,6 +11,10 @@ public class ClientManager : MonoBehaviour
     [SerializeField] private string ipAddress = "127.0.0.1";
     [SerializeField] private int port = 5555;
 
+
+    private string ItemsImagesFolder = "Items/";
+    private string CardsImagesFolder = "Cards/";
+
     private MatchManager currentMatchManager;
     //For temporary saving matchInfo between scene switching
     private clientMatchManagerInfo matchInfo;
@@ -49,8 +53,8 @@ public class ClientManager : MonoBehaviour
         DirectionSprites = new Dictionary<int, Sprite>()
         {
 
-            {0, Resources.Load<Sprite>("Effects/LeftArrow") },
-            {1, Resources.Load<Sprite>("Effects/RightArrow") }
+            {0, Resources.Load<Sprite>(ItemsImagesFolder + "LeftArrow") },
+            {1, Resources.Load<Sprite>(ItemsImagesFolder + "RightArrow") }
 
         };
     }
@@ -146,8 +150,8 @@ public class ClientManager : MonoBehaviour
 
             AllCardsInfo[cardInstance.Id] = cardInstance;
 
-            AllCardsSprites[cardInstance.Id] = Resources.Load<Sprite>("Cards/" + cardInstance.CardImage);
-            AllItemsSprites[cardInstance.Id] = Resources.Load<Sprite>("Effects/" + cardInstance.ItemImage);
+            AllCardsSprites[cardInstance.Id] = Resources.Load<Sprite>(CardsImagesFolder + cardInstance.CardImage);
+            AllItemsSprites[cardInstance.Id] = Resources.Load<Sprite>(ItemsImagesFolder + cardInstance.ItemImage);
         }
     }
     #endregion

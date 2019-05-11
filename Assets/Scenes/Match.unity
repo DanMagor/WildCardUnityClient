@@ -1202,10 +1202,6 @@ PrefabInstance:
       propertyPath: noComboParticleSystem
       value: 
       objectReference: {fileID: 2076447549}
-    - target: {fileID: 2094542946, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
-      propertyPath: CenterPoint
-      value: 
-      objectReference: {fileID: 4220548454981717493}
     - target: {fileID: 5890867399557879430, guid: b1756c9b106385a408aa127b47e0241b,
         type: 3}
       propertyPath: player
@@ -1221,11 +1217,6 @@ PrefabInstance:
       propertyPath: noComboParticleSystem
       value: 
       objectReference: {fileID: 2076447549}
-    - target: {fileID: 5890867399557879430, guid: b1756c9b106385a408aa127b47e0241b,
-        type: 3}
-      propertyPath: CenterPoint
-      value: 
-      objectReference: {fileID: 4220548454981717493}
     - target: {fileID: 5708568243425308734, guid: b1756c9b106385a408aa127b47e0241b,
         type: 3}
       propertyPath: player
@@ -1241,11 +1232,6 @@ PrefabInstance:
       propertyPath: noComboParticleSystem
       value: 
       objectReference: {fileID: 2076447549}
-    - target: {fileID: 5708568243425308734, guid: b1756c9b106385a408aa127b47e0241b,
-        type: 3}
-      propertyPath: CenterPoint
-      value: 
-      objectReference: {fileID: 4220548454981717493}
     - target: {fileID: 4431510497731680271, guid: b1756c9b106385a408aa127b47e0241b,
         type: 3}
       propertyPath: player
@@ -1261,11 +1247,6 @@ PrefabInstance:
       propertyPath: noComboParticleSystem
       value: 
       objectReference: {fileID: 2076447549}
-    - target: {fileID: 4431510497731680271, guid: b1756c9b106385a408aa127b47e0241b,
-        type: 3}
-      propertyPath: CenterPoint
-      value: 
-      objectReference: {fileID: 4220548454981717493}
     - target: {fileID: 1579020946, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
       propertyPath: PlayerEntityController
       value: 
@@ -1301,10 +1282,6 @@ PrefabInstance:
       propertyPath: noComboParticleSystem
       value: 
       objectReference: {fileID: 2076447549}
-    - target: {fileID: 277456056, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
-      propertyPath: CenterPoint
-      value: 
-      objectReference: {fileID: 4220548454981717493}
     - target: {fileID: 277456055, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
       propertyPath: m_Controller
       value: 
@@ -1322,10 +1299,6 @@ PrefabInstance:
       propertyPath: noComboParticleSystem
       value: 
       objectReference: {fileID: 2076447549}
-    - target: {fileID: 1439773644, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
-      propertyPath: CenterPoint
-      value: 
-      objectReference: {fileID: 4220548454981717493}
     - target: {fileID: 1439773643, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
       propertyPath: m_Controller
       value: 
@@ -1343,10 +1316,6 @@ PrefabInstance:
       propertyPath: noComboParticleSystem
       value: 
       objectReference: {fileID: 2076447549}
-    - target: {fileID: 1544822777, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
-      propertyPath: CenterPoint
-      value: 
-      objectReference: {fileID: 4220548454981717493}
     - target: {fileID: 1544822776, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
       propertyPath: m_Controller
       value: 
@@ -1364,10 +1333,6 @@ PrefabInstance:
       propertyPath: noComboParticleSystem
       value: 
       objectReference: {fileID: 2076447549}
-    - target: {fileID: 1117040701, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
-      propertyPath: CenterPoint
-      value: 
-      objectReference: {fileID: 4220548454981717493}
     - target: {fileID: 1117040700, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
       propertyPath: m_Controller
       value: 
@@ -1375,12 +1340,6 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1756c9b106385a408aa127b47e0241b, type: 3}
---- !u!224 &4220548454981717493 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1431769664, guid: b1756c9b106385a408aa127b47e0241b,
-    type: 3}
-  m_PrefabInstance: {fileID: 4220548454981717492}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5980197988878615814
 PrefabInstance:
   m_ObjectHideFlags: 0
