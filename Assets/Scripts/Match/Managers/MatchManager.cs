@@ -62,7 +62,8 @@ public class MatchManager : MonoBehaviour
     {
         CardChoosing,
         ResultShowing,
-        Waiting
+        Waiting,
+        Disconnecting
     }
 
 
@@ -205,6 +206,13 @@ public class MatchManager : MonoBehaviour
     public void RestartMatch()
     {
         ClientTCP.PACKAGE_Match_RequestRestartMatch(MatchId);
+    }
+
+    public void LeaveMatch()
+    {
+        matchState = MatchStates.Disconnecting;
+        ClientTCP.PACKAGE_Match_LeaveMatch(MatchId);
+        ClientManager.LoadMenu();
     }
 
     

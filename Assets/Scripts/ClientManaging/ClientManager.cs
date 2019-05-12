@@ -72,6 +72,10 @@ public class ClientManager : MonoBehaviour
 
         SceneManager.LoadScene("Main Menu");
     }
+
+    public static void LoadMenu(){
+        SceneManager.LoadScene("Main Menu");
+    }
     public void LoadMatch(byte[] data)
     {
 

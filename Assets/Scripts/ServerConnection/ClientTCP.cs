@@ -115,6 +115,15 @@ public class ClientTCP
 
         SendData(buffer.ToArray());
     }
+
+    public static void PACKAGE_Match_LeaveMatch(int matchID)
+    {
+         ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteInteger((int)ClientPackages.CLeaveMatch);
+        buffer.WriteInteger(matchID);
+
+        SendData(buffer.ToArray());
+    }
     #endregion
 
 

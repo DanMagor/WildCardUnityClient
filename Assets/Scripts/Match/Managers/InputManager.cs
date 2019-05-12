@@ -9,6 +9,8 @@ public class InputManager : MonoBehaviour
     [SerializeField]
     private MatchManager matchManager;
 
+    [SerializeField]
+    private GameObject menu;
 
     private void Start()
     {
@@ -37,12 +39,20 @@ public class InputManager : MonoBehaviour
         matchManager.SendToggleCard(position);
     }
 
-  
-
     public void MakeShoot()
     {
         if (MatchManager.matchState != MatchManager.MatchStates.CardChoosing) return;
         matchManager.MakeShot();
+    }
+
+    public void MenuButton()
+    {
+        menu.SetActive(!menu.activeSelf);
+    }
+
+    public void LeaveMatch()
+    {
+        matchManager.LeaveMatch();
     }
 
     
